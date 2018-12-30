@@ -14,12 +14,16 @@ class ArgumentParserTest extends TestCase
             $(\Pre\Standard\Parser\argument() as alias)
         } >> {
             $(alias ... {
-                $(argumentNullable ? {
-                    "nullable",
-                })
+                $(argumentNullableType ? {
+                    $(argumentNullableType ... {
+                        $(argumentNullable ? {
+                            "nullable",
+                        })
 
-                $(argumentType ? {
-                    $$(stringify($(argumentType))),
+                        $(argumentType ? {
+                            $$(stringify($(argumentType))),
+                        })
+                    })
                 })
 
                 $$(stringify($(argumentName))),

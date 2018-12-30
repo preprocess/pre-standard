@@ -19,12 +19,14 @@ class ArgumentExpander extends AbstractExpander
 
         $ast = match($stream)->unwrap();
 
-        if (!empty($ast["argumentNullable"])) {
-            $tokens[] = "?";
-        }
+        if (!empty($ast["argumentNullableType"])) {
+            if (!empty($ast["argumentNullableType"]["argumentNullable"])) {
+                $tokens[] = "?";
+            }
 
-        if (!empty($ast["argumentType"])) {
-            $tokens[] = flatten($ast["argumentType"]);
+            if (!empty($ast["argumentNullableType"]["argumentType"])) {
+                $tokens[] = flatten($ast["argumentNullableType"]["argumentType"]);
+            }
         }
 
         $tokens[] = $ast["argumentName"];

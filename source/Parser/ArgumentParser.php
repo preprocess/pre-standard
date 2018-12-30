@@ -17,8 +17,12 @@ class ArgumentParser extends AbstractParser
     public function parse(string $prefix = null): Parser
     {
         return chain(
-            optional(buffer("?"))->as(named("argumentNullable", $prefix)),
-            optional((new TypeParser())->parse(named("argument", $prefix))),
+            optional(
+                chain(
+                    optional(buffer("?"))->as(named("argumentNullable", $prefix)),
+                    (new TypeParser())->parse(named("argument", $prefix))
+                )
+            )->as(named("argumentNullableType", $prefix)),
             token(T_VARIABLE)->as(named("argumentName", $prefix)),
             optional(
                 chain(
