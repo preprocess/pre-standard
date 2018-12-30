@@ -20,9 +20,13 @@ class ArgumentParser extends AbstractParser
             optional(buffer("?"))->as(named("argumentNullable", $prefix)),
             optional((new TypeParser())->parse(named("argument", $prefix))),
             token(T_VARIABLE)->as(named("argumentName", $prefix)),
-            optional(buffer("=")),
-            optional(buffer("new"))->as(named("argumentNew", $prefix)),
-            optional(expression())->as(named("argumentValue", $prefix))
+            optional(
+                chain(
+                    buffer("="),
+                    optional(buffer("new"))->as(named("argumentNew", $prefix)),
+                    expression()->as(named("argumentValue", $prefix))
+                )
+            )->as(named("argumentAssignment", $prefix))
         )
             ->as(named("argument", $prefix))
             ->onCommit($this->onCommit);

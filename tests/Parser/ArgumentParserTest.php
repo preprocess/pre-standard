@@ -10,6 +10,7 @@ class ArgumentParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
+            // https://github.com/marcioAlmada/yay/issues/56
             $(\Pre\Standard\Parser\argument() as alias)
         } >> {
             $(alias ... {
@@ -23,14 +24,16 @@ class ArgumentParserTest extends TestCase
 
                 $$(stringify($(argumentName))),
 
-                $(argumentValue ? {
-                    "equals",
-
-                    $(argumentNew ? {
-                        "new",
+                $(argumentAssignment ? {
+                    $(argumentAssignment ... {
+                        "equals",
+    
+                        $(argumentNew ? {
+                            "new",
+                        })
+    
+                        $$(stringify($(argumentValue)))
                     })
-
-                    $$(stringify($(argumentValue)))
                 })
             })
         }
@@ -47,17 +50,28 @@ class ArgumentParserTest extends TestCase
         $this->assertEquals(['$thing', 'equals', '"param"'], eval($code));
     }
 
-    public function test_full_argument()
+    public function test_full_argument_with_object()
     {
         $code = $this->expand('
             return [
-                ? \Foo\Bar\Obj $thing = new \Foo\Bar\Obj("param")
+                ? \Foo\Bar\Baz $thing = new \Foo\Bar\Baz("param")
             ];
         ');
 
         $this->assertEquals(
-            ['nullable', '\Foo\Bar\Obj', '$thing', 'equals', 'new', '\Foo\Bar\Obj("param")'],
+            ['nullable', '\Foo\Bar\Baz', '$thing', 'equals', 'new', '\Foo\Bar\Baz("param")'],
             eval($code)
         );
+    }
+
+    public function test_full_argument_with_function()
+    {
+        $code = $this->expand('
+            return [
+                ? \Foo\Bar\Baz $thing = \Foo\Bar\baz("param")
+            ];
+        ');
+
+        $this->assertEquals(['nullable', '\Foo\Bar\Baz', '$thing', 'equals', '\Foo\Bar\baz("param")'], eval($code));
     }
 }

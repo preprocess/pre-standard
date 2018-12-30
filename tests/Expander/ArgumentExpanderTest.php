@@ -8,13 +8,13 @@ class ArgumentExpanderTest extends TestCase
 {
     use HasExpand;
 
-    protected $macro = "
+    protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\argument() as alias)
+            $(\Pre\Standard\Parser\argument())
         } >> {
-            $$(\Pre\Standard\Expander\argument($(alias)))
+            $$(\Pre\Standard\Expander\argument($(argument)))
         }
-    ";
+    ';
 
     public function test_basic_argument()
     {
@@ -32,9 +32,17 @@ class ArgumentExpanderTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_full_argument()
+    public function test_full_argument_with_object()
     {
-        $expected = '? \Foo\Bar\Obj $thing = new \Foo\Bar\Obj("param")';
+        $expected = '? \Foo\Bar\Baz $thing = new \Foo\Bar\Baz("param")';
+        $actual = $this->expand($expected);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_full_argument_with_function()
+    {
+        $expected = '? \Foo\Bar\Baz $thing = \Foo\Bar\baz("param")';
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
