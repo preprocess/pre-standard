@@ -54,7 +54,7 @@ class ArgumentParserTest extends TestCase
         $this->assertEquals(['$thing', 'equals', '"param"'], eval($code));
     }
 
-    public function test_full_argument_with_object()
+    public function test_object_type_and_object_assignment()
     {
         $code = $this->expand('
             return [
@@ -68,7 +68,7 @@ class ArgumentParserTest extends TestCase
         );
     }
 
-    public function test_full_argument_with_function()
+    public function test_object_type_and_function_assignment()
     {
         $code = $this->expand('
             return [
@@ -77,5 +77,16 @@ class ArgumentParserTest extends TestCase
         ');
 
         $this->assertEquals(['nullable', '\Foo\Bar\Baz', '$thing', 'equals', '\Foo\Bar\baz("param")'], eval($code));
+    }
+
+    public function test_function_assignment()
+    {
+        $code = $this->expand('
+            return [
+                $thing = \Foo\Bar\baz("param")
+            ];
+        ');
+
+        $this->assertEquals(['$thing', 'equals', '\Foo\Bar\baz("param")'], eval($code));
     }
 }

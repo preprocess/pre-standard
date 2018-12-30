@@ -24,7 +24,7 @@ class ArgumentExpanderTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_basic_argument_with_assignment()
+    public function test_basic_argument_and_assignment()
     {
         $expected = '$thing = "param"';
         $actual = $this->expand($expected);
@@ -32,7 +32,7 @@ class ArgumentExpanderTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_full_argument_with_object()
+    public function test_object_type_and_object_assignment()
     {
         $expected = '? \Foo\Bar\Baz $thing = new \Foo\Bar\Baz("param")';
         $actual = $this->expand($expected);
@@ -40,9 +40,17 @@ class ArgumentExpanderTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_full_argument_with_function()
+    public function test_object_type_and_function_assignment()
     {
         $expected = '? \Foo\Bar\Baz $thing = \Foo\Bar\baz("param")';
+        $actual = $this->expand($expected);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_function_assignment()
+    {
+        $expected = '$thing = \Foo\Bar\baz("param")';
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);

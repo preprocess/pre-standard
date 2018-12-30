@@ -2,12 +2,18 @@
 
 namespace Pre\Standard\Parser {
     use Pre\Standard\Parser\ArgumentParser;
+    use Pre\Standard\Parser\TypeParser;
 
     use Yay\Parser;
 
     function argument(string $prefix = null): Parser
     {
         return (new ArgumentParser())->parse($prefix);
+    }
+
+    function type(string $prefix = null): Parser
+    {
+        return (new TypeParser())->parse($prefix);
     }
 }
 
