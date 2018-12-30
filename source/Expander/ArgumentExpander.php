@@ -9,7 +9,6 @@ use function Pre\Standard\streamed;
 use function Pre\Standard\aerated;
 
 use Yay\Engine;
-use Yay\Token;
 use Yay\TokenStream;
 
 class ArgumentExpander extends AbstractExpander

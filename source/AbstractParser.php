@@ -12,15 +12,13 @@ use Yay\Parser;
 
 abstract class AbstractParser
 {
-    public function __get($name)
-    {
-        if ($name === "onCommit") {
-            return function (Ast $ast) {
-                store($ast);
-            };
-        }
+    protected $onCommit;
 
-        throw new PropertyMissingException();
+    public function __construct()
+    {
+        $this->onCommit = function (Ast $ast) {
+            store($ast);
+        };
     }
 
     abstract public function parse(string $prefix = null): Parser;
