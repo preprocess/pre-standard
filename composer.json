@@ -1,0 +1,22 @@
+{
+    "name": "pre/standard",
+    "description": "Standard library of preprocessor parsers and expanders",
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "source/functions.php"
+        ],
+        "psr-4": {
+            "Pre\\Standard\\": "source"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pre\\Standard\\Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5",
+        "yay/yay": "^0.7.0"
+    }
+}
