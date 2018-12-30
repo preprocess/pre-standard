@@ -2,6 +2,7 @@
 
 namespace Pre\Standard\Parser {
     use Pre\Standard\Parser\ArgumentParser;
+    use Pre\Standard\Parser\ArgumentsParser;
     use Pre\Standard\Parser\TypeParser;
 
     use Yay\Parser;
@@ -9,6 +10,11 @@ namespace Pre\Standard\Parser {
     function argument(string $prefix = null): Parser
     {
         return (new ArgumentParser())->parse($prefix);
+    }
+
+    function arguments(string $prefix = null): Parser
+    {
+        return (new ArgumentsParser())->parse($prefix);
     }
 
     function type(string $prefix = null): Parser
@@ -19,6 +25,8 @@ namespace Pre\Standard\Parser {
 
 namespace Pre\Standard\Expander {
     use Pre\Standard\Expander\ArgumentExpander;
+    use Pre\Standard\Expander\ArgumentsExpander;
+    use function Pre\Standard\streamed;
 
     use Yay\Engine;
     use Yay\TokenStream;
@@ -26,6 +34,18 @@ namespace Pre\Standard\Expander {
     function argument(TokenStream $stream, Engine $engine): TokenStream
     {
         return (new ArgumentExpander())->expand($stream, $engine);
+    }
+
+    function arguments(TokenStream $stream, Engine $engine): TokenStream
+    {
+        return (new ArgumentsExpander())->expand($stream, $engine);
+    }
+
+    function studly(TokenStream $stream, Engine $engine): TokenStream
+    {
+        $stream = \str_replace(["-", "_"], " ", $stream);
+        $stream = \str_replace(" ", "", \ucwords($stream));
+        return streamed($stream, $engine);
     }
 }
 

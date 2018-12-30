@@ -13,32 +13,31 @@ use Yay\TokenStream;
 
 class ArgumentExpander extends AbstractExpander
 {
-    public function expand(TokenStream $stream, Engine $engine): TokenStream
+    public function expand($source, Engine $engine): TokenStream
     {
         $tokens = [];
+        $source = $this->resolve($source);
 
-        $ast = match($stream)->unwrap();
-
-        if (!empty($ast["argumentNullableType"])) {
-            if (!empty($ast["argumentNullableType"]["argumentNullable"])) {
+        if (!empty($source["argumentNullableType"])) {
+            if (!empty($source["argumentNullableType"]["argumentNullable"])) {
                 $tokens[] = "?";
             }
 
-            if (!empty($ast["argumentNullableType"]["argumentType"])) {
-                $tokens[] = flatten($ast["argumentNullableType"]["argumentType"]);
+            if (!empty($source["argumentNullableType"]["argumentType"])) {
+                $tokens[] = flatten($source["argumentNullableType"]["argumentType"]);
             }
         }
 
-        $tokens[] = $ast["argumentName"];
+        $tokens[] = $source["argumentName"];
 
-        if (!empty($ast["argumentAssignment"])) {
+        if (!empty($source["argumentAssignment"])) {
             $tokens[] = "=";
 
-            if (!empty($ast["argumentAssignment"]["argumentNew"])) {
+            if (!empty($source["argumentAssignment"]["argumentNew"])) {
                 $tokens[] = "new";
             }
 
-            $tokens[] = flatten($ast["argumentAssignment"]["argumentValue"]);
+            $tokens[] = flatten($source["argumentAssignment"]["argumentValue"]);
         }
 
         return streamed(aerated($tokens), $engine);
