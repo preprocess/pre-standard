@@ -26,7 +26,7 @@ class ArgumentsParserTest extends TestCase
         }
     ';
 
-    public function test_basic_arguments()
+    public function test_identifies_argument_lists()
     {
         $code = $this->expand('
             return [

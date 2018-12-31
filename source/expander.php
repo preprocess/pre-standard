@@ -4,6 +4,7 @@ namespace Pre\Standard\Expander;
 
 use Pre\Standard\Expander\ArgumentExpander;
 use Pre\Standard\Expander\ArgumentsExpander;
+use Pre\Standard\Expander\ClassConstantExpander;
 use Pre\Standard\Expander\NullableTypeExpander;
 use Pre\Standard\Expander\TypeExpander;
 use function Pre\Standard\Internal\streamed;
@@ -19,6 +20,11 @@ function argument(TokenStream $stream, Engine $engine): TokenStream
 function arguments(TokenStream $stream, Engine $engine): TokenStream
 {
     return (new ArgumentsExpander())->expand($stream, $engine);
+}
+
+function classConstant(TokenStream $stream, Engine $engine): TokenStream
+{
+    return (new ClassConstantExpander())->expand($stream, $engine);
 }
 
 function nullableType(TokenStream $stream, Engine $engine): TokenStream

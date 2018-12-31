@@ -16,7 +16,7 @@ class ArgumentsExpanderTest extends TestCase
         }
     ';
 
-    public function test_arguments_expansion()
+    public function test_argument_list_expansion()
     {
         $expected = '$one = "one", string $two = "two", $three = three("three")';
         $actual = $this->expand($expected);

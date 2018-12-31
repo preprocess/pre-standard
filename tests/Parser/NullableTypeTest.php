@@ -23,7 +23,7 @@ class NullableTypeTest extends TestCase
         }
     ';
 
-    public function test_nullable_types()
+    public function test_identifies_nullable_types()
     {
         $code = $this->expand('
             return [

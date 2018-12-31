@@ -4,6 +4,7 @@ namespace Pre\Standard\Parser;
 
 use Pre\Standard\Parser\ArgumentParser;
 use Pre\Standard\Parser\ArgumentsParser;
+use Pre\Standard\Parser\ClassConstantParser;
 use Pre\Standard\Parser\NullableTypeParser;
 use Pre\Standard\Parser\TypeParser;
 use Pre\Standard\Parser\VisibilityModifiersParser;
@@ -18,6 +19,11 @@ function argument(string $prefix = null): Parser
 function arguments(string $prefix = null): Parser
 {
     return (new ArgumentsParser())->parse($prefix);
+}
+
+function classConstant(string $prefix = null): Parser
+{
+    return (new ClassConstantParser())->parse($prefix);
 }
 
 function nullableType(string $prefix = null): Parser

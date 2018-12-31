@@ -28,7 +28,7 @@ class TypeParserTest extends TestCase
         $this->assertEquals(['\Foo\Bar\Baz'], eval($code));
     }
 
-    public function test_identifies_scalars()
+    public function test_identifies_scalar_types()
     {
         $code = $this->expand('
             return [
