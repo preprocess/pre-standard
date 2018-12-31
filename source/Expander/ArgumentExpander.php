@@ -18,26 +18,20 @@ class ArgumentExpander extends AbstractExpander
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($source[named("argumentNullableType", $prefix)])) {
-            if (!empty($source[named("argumentNullableType", $prefix)][named("argumentNullable", $prefix)])) {
-                $tokens[] = "?";
-            }
-
-            if (!empty($source[named("argumentNullableType", $prefix)][named("argumentType", $prefix)])) {
-                $tokens[] = flatten($source[named("argumentNullableType", $prefix)][named("argumentType", $prefix)]);
-            }
+        if (!empty(($branch = $source[named("argumentNullableType", $prefix)]))) {
+            $tokens[] = (string) (new NullableTypeExpander())->expand($branch, $engine, "argument");
         }
 
         $tokens[] = $source[named("argumentName", $prefix)];
 
-        if (!empty($source[named("argumentAssignment", $prefix)])) {
+        if (!empty(($branch = $source[named("argumentAssignment", $prefix)]))) {
             $tokens[] = "=";
 
-            if (!empty($source[named("argumentAssignment", $prefix)][named("argumentNew", $prefix)])) {
+            if (!empty(($leaf = $branch[named("argumentNew", $prefix)]))) {
                 $tokens[] = "new";
             }
 
-            $tokens[] = flatten($source[named("argumentAssignment", $prefix)][named("argumentValue", $prefix)]);
+            $tokens[] = flatten($branch[named("argumentValue", $prefix)]);
         }
 
         return streamed(aerated($tokens), $engine);

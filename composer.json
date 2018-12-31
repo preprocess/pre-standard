@@ -4,7 +4,9 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "source/functions.php"
+            "source/expander.php",
+            "source/internal.php",
+            "source/parser.php"
         ],
         "psr-4": {
             "Pre\\Standard\\": "source"

@@ -25,6 +25,7 @@ class ArgumentsExpander extends AbstractExpander
                 $engine,
                 $prefix
             );
+
             $tokens[] = ", ";
         }
 
