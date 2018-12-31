@@ -6,6 +6,7 @@ use Pre\Standard\Parser\ArgumentParser;
 use Pre\Standard\Parser\ArgumentsParser;
 use Pre\Standard\Parser\NullableTypeParser;
 use Pre\Standard\Parser\TypeParser;
+use Pre\Standard\Parser\VisibilityModifiersParser;
 
 use Yay\Parser;
 
@@ -27,4 +28,9 @@ function nullableType(string $prefix = null): Parser
 function type(string $prefix = null): Parser
 {
     return (new TypeParser())->parse($prefix);
+}
+
+function visibilityModifiers(string $prefix = null): Parser
+{
+    return (new VisibilityModifiersParser())->parse($prefix);
 }

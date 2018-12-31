@@ -24,7 +24,8 @@ class NullableTypeExpander extends AbstractExpander
             $tokens[] = "?";
         }
 
-        // seems when the nullable is missing, type is sometimes not named
+        // ...seems when the nullable is missing
+        // type is sometimes not named or nested
         if (empty($source[named("type", $prefix)])) {
             $tokens[] = flatten($source);
         } else {

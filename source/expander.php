@@ -38,3 +38,8 @@ function type(TokenStream $stream, Engine $engine): TokenStream
 {
     return (new TypeExpander())->expand($stream, $engine);
 }
+
+function visibilityModifiers(TokenStream $stream, Engine $engine): TokenStream
+{
+    return (new VisibilityModifiersExpander())->expand($stream, $engine);
+}

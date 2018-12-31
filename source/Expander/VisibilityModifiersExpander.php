@@ -6,6 +6,7 @@ use function join;
 
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
+use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
 
 use Yay\Engine;
@@ -15,6 +16,13 @@ class VisibilityModifiersExpander extends AbstractExpander
 {
     public function expand($source, Engine $engine, string $prefix = null): TokenStream
     {
-        // TODO
+        $tokens = [];
+        $source = $this->resolve($source);
+
+        foreach ($source as $visibilityModifier) {
+            $tokens[] = $visibilityModifier[named("visibilityModifier", $prefix)];
+        }
+
+        return streamed(aerated($tokens), $engine);
     }
 }
