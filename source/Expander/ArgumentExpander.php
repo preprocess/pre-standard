@@ -18,13 +18,19 @@ class ArgumentExpander extends AbstractExpander
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty(($branch = $source[named("argumentNullableType", $prefix)]))) {
-            $tokens[] = (string) (new NullableTypeExpander())->expand($branch, $engine, "argument");
+        if (!empty($source[named("argumentNullableType", $prefix)])) {
+            $tokens[] = (string) (new NullableTypeExpander())->expand(
+                $source[named("argumentNullableType", $prefix)],
+                $engine,
+                "argument"
+            );
         }
 
         $tokens[] = $source[named("argumentName", $prefix)];
 
-        if (!empty(($branch = $source[named("argumentAssignment", $prefix)]))) {
+        if (!empty($source[named("argumentAssignment", $prefix)])) {
+            $branch = $source[named("argumentAssignment", $prefix)];
+
             $tokens[] = "=";
 
             if (!empty(($leaf = $branch[named("argumentNew", $prefix)]))) {
