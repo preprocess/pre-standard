@@ -3,7 +3,7 @@
 namespace Pre\Standard\Parser;
 
 use Pre\Standard\AbstractParser;
-use function Pre\Standard\named;
+use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;
@@ -17,12 +17,7 @@ class ArgumentParser extends AbstractParser
     public function parse(string $prefix = null): Parser
     {
         return chain(
-            optional(
-                chain(
-                    optional(buffer("?"))->as(named("argumentNullable", $prefix)),
-                    (new TypeParser())->parse(named("argument", $prefix))
-                )
-            )->as(named("argumentNullableType", $prefix)),
+            optional((new NullableTypeParser())->parse(named("argument", $prefix))),
             token(T_VARIABLE)->as(named("argumentName", $prefix)),
             optional(
                 chain(

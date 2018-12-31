@@ -14,6 +14,11 @@ class ArgumentsParserTest extends TestCase
             $(\Pre\Standard\Parser\arguments() as alias)
         } >> {
             $(alias ...(,) {
+
+                // ...not really interested in re-testing the argument
+                // parser so this is just to make sure arguments() is
+                // returning all the elements argument() needs
+
                 $$(stringify(
                     $$(\Pre\Standard\Expander\argument($(argument)))
                 ))

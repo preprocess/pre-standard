@@ -3,41 +3,41 @@
 namespace Pre\Standard\Expander;
 
 use Pre\Standard\AbstractExpander;
-use function Pre\Standard\aerated;
-use function Pre\Standard\flatten;
-use function Pre\Standard\match;
-use function Pre\Standard\streamed;
+use function Pre\Standard\Internal\aerated;
+use function Pre\Standard\Internal\flatten;
+use function Pre\Standard\Internal\named;
+use function Pre\Standard\Internal\streamed;
 
 use Yay\Engine;
 use Yay\TokenStream;
 
 class ArgumentExpander extends AbstractExpander
 {
-    public function expand($source, Engine $engine): TokenStream
+    public function expand($source, Engine $engine, string $prefix = null): TokenStream
     {
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($source["argumentNullableType"])) {
-            if (!empty($source["argumentNullableType"]["argumentNullable"])) {
+        if (!empty($source[named("argumentNullableType", $prefix)])) {
+            if (!empty($source[named("argumentNullableType", $prefix)][named("argumentNullable", $prefix)])) {
                 $tokens[] = "?";
             }
 
-            if (!empty($source["argumentNullableType"]["argumentType"])) {
-                $tokens[] = flatten($source["argumentNullableType"]["argumentType"]);
+            if (!empty($source[named("argumentNullableType", $prefix)][named("argumentType", $prefix)])) {
+                $tokens[] = flatten($source[named("argumentNullableType", $prefix)][named("argumentType", $prefix)]);
             }
         }
 
-        $tokens[] = $source["argumentName"];
+        $tokens[] = $source[named("argumentName", $prefix)];
 
-        if (!empty($source["argumentAssignment"])) {
+        if (!empty($source[named("argumentAssignment", $prefix)])) {
             $tokens[] = "=";
 
-            if (!empty($source["argumentAssignment"]["argumentNew"])) {
+            if (!empty($source[named("argumentAssignment", $prefix)][named("argumentNew", $prefix)])) {
                 $tokens[] = "new";
             }
 
-            $tokens[] = flatten($source["argumentAssignment"]["argumentValue"]);
+            $tokens[] = flatten($source[named("argumentAssignment", $prefix)][named("argumentValue", $prefix)]);
         }
 
         return streamed(aerated($tokens), $engine);

@@ -3,7 +3,7 @@
 namespace Pre\Standard\Parser;
 
 use Pre\Standard\AbstractParser;
-use function Pre\Standard\named;
+use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;

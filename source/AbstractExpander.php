@@ -2,7 +2,7 @@
 
 namespace Pre\Standard;
 
-use function Pre\Standard\match;
+use function Pre\Standard\Internal\match;
 
 use Yay\Ast;
 use Yay\Engine;
@@ -25,5 +25,5 @@ abstract class AbstractExpander
         return $source;
     }
 
-    abstract public function expand($source, Engine $engine): TokenStream;
+    abstract public function expand($source, Engine $engine, string $prefix = null): TokenStream;
 }

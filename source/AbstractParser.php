@@ -4,8 +4,7 @@ namespace Pre\Standard;
 
 use Closure;
 
-use Pre\Standard\Exception\PropertyMissingException;
-use function Pre\Standard\store;
+use function Pre\Standard\Internal\store;
 
 use Yay\Ast;
 use Yay\Parser;

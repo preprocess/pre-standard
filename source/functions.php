@@ -26,7 +26,7 @@ namespace Pre\Standard\Parser {
 namespace Pre\Standard\Expander {
     use Pre\Standard\Expander\ArgumentExpander;
     use Pre\Standard\Expander\ArgumentsExpander;
-    use function Pre\Standard\streamed;
+    use function Pre\Standard\Internal\streamed;
 
     use Yay\Engine;
     use Yay\TokenStream;
@@ -45,11 +45,12 @@ namespace Pre\Standard\Expander {
     {
         $stream = \str_replace(["-", "_"], " ", $stream);
         $stream = \str_replace(" ", "", \ucwords($stream));
+
         return streamed($stream, $engine);
     }
 }
 
-namespace Pre\Standard {
+namespace Pre\Standard\Internal {
     use Pre\Standard\Exception\AstMissingException;
 
     use Yay\Ast;
@@ -141,10 +142,10 @@ namespace Pre\Standard {
         return $aerated;
     }
 
-    function streamed($from, Engine $engine): TokenStream
+    function streamed($source, Engine $engine): TokenStream
     {
-        if (is_array($from)) {
-            $from = array_map(function ($item) {
+        if (is_array($source)) {
+            $source = array_map(function ($item) {
                 if (is_array($item)) {
                     $item = first($item);
                 }
@@ -154,14 +155,14 @@ namespace Pre\Standard {
                 }
 
                 return $item;
-            }, $from);
+            }, $source);
 
-            return TokenStream::fromSequence(...$from);
+            return TokenStream::fromSequence(...$source);
         }
 
-        if (is_string($from)) {
+        if (is_string($source)) {
             return TokenStream::fromSource(
-                $engine->expand($from, $engine->currentFileName(), Engine::GC_ENGINE_DISABLED)
+                $engine->expand($source, $engine->currentFileName(), Engine::GC_ENGINE_DISABLED)
             );
         }
     }

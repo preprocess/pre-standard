@@ -7,14 +7,14 @@ use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;
-use function Yay\ls;
+use function Yay\chain;
 
-class ArgumentsParser extends AbstractParser
+class ReturnTypeParser extends AbstractParser
 {
     public function parse(string $prefix = null): Parser
     {
-        return ls((new ArgumentParser())->parse($prefix), buffer(","))
-            ->as(named("arguments", $prefix))
+        return chain(buffer(":"), (new NullableTypeParser())->parse(named("return", $prefix)))
+            ->as(named("returnType", $prefix))
             ->onCommit($this->onCommit);
     }
 }
