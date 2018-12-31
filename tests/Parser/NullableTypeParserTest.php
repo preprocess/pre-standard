@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;
 
-class NullableTypeTest extends TestCase
+class NullableTypeParserTest extends TestCase
 {
     use HasExpand;
 
@@ -32,6 +32,6 @@ class NullableTypeTest extends TestCase
             ];
         ');
 
-        $this->assertEquals([["nullable", "string"], ["int"]], eval($code));
+        $this->assertEquals([['nullable', 'string'], ['int']], eval($code));
     }
 }

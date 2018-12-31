@@ -6,7 +6,7 @@ use function join;
 
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
-use function Pre\Standard\Internal\flatten;
+use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
 
@@ -27,7 +27,7 @@ class NullableTypeExpander extends AbstractExpander
         // ...seems when the nullable is missing
         // type is sometimes not named or nested
         if (empty($source[named("type", $prefix)])) {
-            $tokens[] = flatten($source);
+            $tokens[] = flattened($source);
         } else {
             $tokens[] = (string) (new TypeExpander())->expand($source[named("type", $prefix)], $engine, $prefix);
         }

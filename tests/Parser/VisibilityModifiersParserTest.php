@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;
 
-class VisibilityModifiersTest extends TestCase
+class VisibilityModifiersParserTest extends TestCase
 {
     use HasExpand;
 
@@ -28,6 +28,6 @@ class VisibilityModifiersTest extends TestCase
             ];
         ');
 
-        $this->assertEquals(["public", "protected", "private", "static"], eval($code));
+        $this->assertEquals(['public', 'protected', 'private', 'static'], eval($code));
     }
 }

@@ -22,7 +22,7 @@ class ClassConstantParserTest extends TestCase
                     }),
                 })
                 $$(stringify($(classConstantName))),
-                $(classConstantValue)
+                $$(stringify($(classConstantValue))),
             })
         }
     ';
@@ -30,16 +30,12 @@ class ClassConstantParserTest extends TestCase
     public function test_identifies_class_constants()
     {
         $code = $this->expand('
-            function baz($param) {
-                return $param;
-            }
-
             return [
                 [ public const FOO = "bar"; ],
                 [ static const BAR = baz("param"); ],
             ];
         ');
 
-        $this->assertEquals([["public", "FOO", "bar"], ["static", "BAR", "param"]], eval($code));
+        $this->assertEquals([['public', 'FOO', '"bar"'], ['static', 'BAR', 'baz("param")']], eval($code));
     }
 }

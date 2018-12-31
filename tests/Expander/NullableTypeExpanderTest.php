@@ -17,7 +17,7 @@ class NullableTypeExpanderTest extends TestCase
 
     public function test_nullable_type_expansion()
     {
-        $expected = '? string $one, bool $two, ? int $three';
+        $expected = '?string $one, bool $two, ? int $three';
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);

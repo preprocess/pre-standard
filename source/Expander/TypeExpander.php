@@ -6,7 +6,7 @@ use function join;
 
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
-use function Pre\Standard\Internal\flatten;
+use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\streamed;
 
 use Yay\Engine;
@@ -18,7 +18,7 @@ class TypeExpander extends AbstractExpander
     public function expand($source, Engine $engine, string $prefix = null): TokenStream
     {
         $source = $this->resolve($source);
-        $token = new Token(T_STRING, flatten($source));
+        $token = new Token(T_STRING, flattened($source));
 
         return streamed([$token], $engine);
     }

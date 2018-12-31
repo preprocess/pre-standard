@@ -18,7 +18,7 @@ class ClassPropertyParser extends AbstractParser
     {
         return chain(
             (new VisibilityModifiersParser())->parse(named("classProperty", $prefix)),
-            optional((new TypeParser())->parse(named("classProperty", $prefix))),
+            optional((new NullableTypeParser())->parse(named("classProperty", $prefix))),
             token(T_VARIABLE)->as(named("classPropertyName", $prefix)),
             optional(buffer("=")),
             optional(expression())->as(named("classPropertyValue", $prefix)),

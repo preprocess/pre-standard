@@ -4,7 +4,7 @@ namespace Pre\Standard\Expander;
 
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
-use function Pre\Standard\Internal\flatten;
+use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
 
@@ -37,7 +37,7 @@ class ArgumentExpander extends AbstractExpander
                 $tokens[] = "new";
             }
 
-            $tokens[] = flatten($branch[named("argumentValue", $prefix)]);
+            $tokens[] = flattened($branch[named("argumentValue", $prefix)]);
         }
 
         return streamed(aerated($tokens), $engine);

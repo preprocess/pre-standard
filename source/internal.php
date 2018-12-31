@@ -53,7 +53,7 @@ function first($item)
     return $item;
 }
 
-function flatten(array $parts): string
+function flattened(array $parts): string
 {
     $name = "";
 
@@ -63,7 +63,7 @@ function flatten(array $parts): string
         }
 
         if (is_array($part)) {
-            $name .= flatten($part);
+            $name .= flattened($part);
         }
 
         if (is_string($part)) {

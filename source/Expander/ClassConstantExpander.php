@@ -6,7 +6,7 @@ use function join;
 
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
-use function Pre\Standard\Internal\flatten;
+use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
 
@@ -31,7 +31,7 @@ class ClassConstantExpander extends AbstractExpander
         $tokens[] = "const";
         $tokens[] = $source[named("classConstantName", $prefix)];
         $tokens[] = "=";
-        $tokens[] = flatten($source[named("classConstantValue", $prefix)]);
+        $tokens[] = flattened($source[named("classConstantValue", $prefix)]);
         $tokens[] = ";";
 
         return streamed(aerated($tokens), $engine);
