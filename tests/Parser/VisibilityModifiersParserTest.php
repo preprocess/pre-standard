@@ -21,6 +21,7 @@ class VisibilityModifiersParserTest extends TestCase
     {
         $code = $this->expand('
             return [
+                abstract,
                 public,
                 protected,
                 private,
@@ -28,6 +29,6 @@ class VisibilityModifiersParserTest extends TestCase
             ];
         ');
 
-        $this->assertEquals(['public', 'protected', 'private', 'static'], eval($code));
+        $this->assertEquals(['abstract', 'public', 'protected', 'private', 'static'], eval($code));
     }
 }

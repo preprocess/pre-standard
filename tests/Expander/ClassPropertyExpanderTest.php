@@ -16,9 +16,17 @@ class ClassPropertyExpanderTest extends TestCase
         }
     ';
 
-    public function test_class_constants_expansion()
+    public function test_class_property_expansion()
     {
-        $expected = 'public $foo = "bar" ; static ? string $bar = baz("param") ;';
+        // we get a warning because prettier-php
+        // doesn't recognise nullable type properties
+
+        $expected = <<<CODE
+new class {
+    public \$foo = "bar" ;
+    static ? string \$bar = baz("param") ;
+};
+CODE;
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);

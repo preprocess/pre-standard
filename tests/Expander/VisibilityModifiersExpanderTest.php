@@ -18,7 +18,27 @@ class VisibilityModifiersExpanderTest extends TestCase
 
     public function test_visibility_modifiers_expansion()
     {
-        $expected = 'public protected private static';
+        $expected = <<<CODE
+new class {
+    abstract public function fn1();
+
+    protected function fn1()
+    {
+        // noop
+    }
+
+    private function fn2()
+    {
+        // noop
+    }
+
+    static function fn3()
+    {
+        // noop
+    }
+};
+CODE;
+
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);

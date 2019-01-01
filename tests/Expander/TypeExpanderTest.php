@@ -1,4 +1,4 @@
-a<?php
+<?php
 use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;
@@ -17,10 +17,15 @@ class TypeExpanderTest extends TestCase
 
     public function test_type_expansion()
     {
-        $expected = 'string $one, bool $two, int $three';
+        $expected = <<<CODE
+function fn(string \$one, bool \$two, int \$three)
+{
+    // noop
+}
+CODE;
+
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
     }
 }
-

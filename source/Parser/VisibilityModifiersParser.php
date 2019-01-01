@@ -15,7 +15,7 @@ class VisibilityModifiersParser extends AbstractParser
     public function parse(string $prefix = null): Parser
     {
         return repeat(
-            either(buffer("public"), buffer("protected"), buffer("private"), buffer("static"))->as(
+            either(buffer("abstract"), buffer("public"), buffer("protected"), buffer("private"), buffer("static"))->as(
                 named("visibilityModifier", $prefix)
             )
         )

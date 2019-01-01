@@ -3,6 +3,7 @@
 namespace Pre\Standard\Internal;
 
 use Pre\Standard\Exception\AstMissingException;
+use function Pre\Standard\Internal\flattened;
 
 use Yay\Ast;
 use Yay\Engine;
@@ -24,21 +25,16 @@ function store(Ast $ast)
         $GLOBALS["PRE_AST"] = [];
     }
 
-    array_push($GLOBALS["PRE_AST"], $ast);
+    $tokens = flattened($ast->tokens());
+    $GLOBALS["PRE_AST"][md5($tokens)] = $ast;
 }
 
 function match(TokenStream $stream)
 {
-    $tokens = [];
+    $hash = md5((string) $stream);
 
-    do {
-        array_push($tokens, $stream->current());
-    } while ($stream->next());
-
-    foreach ($GLOBALS["PRE_AST"] as $ast) {
-        if (json_encode($tokens) === json_encode($ast->tokens())) {
-            return $ast;
-        }
+    if (isset($GLOBALS["PRE_AST"][$hash])) {
+        return $GLOBALS["PRE_AST"][$hash];
     }
 
     throw new AstMissingException();

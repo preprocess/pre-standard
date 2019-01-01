@@ -18,7 +18,7 @@ class ArgumentExpanderTest extends TestCase
 
     public function test_argument_expansion()
     {
-        $expected = '$thing';
+        $expected = '$thing;';
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
@@ -26,15 +26,21 @@ class ArgumentExpanderTest extends TestCase
 
     public function test_argument_expansion_with_assignment()
     {
-        $expected = '$thing = "param"';
+        $expected = '$thing = "param";';
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_argument_expansion_with_object_type_and_object_assignment()
+    public function test_argument_expansion_with_object_type_and_object_assignment(?string $foo = "bar")
     {
-        $expected = '? \Foo\Bar\Baz $thing = new \Foo\Bar\Baz("param")';
+        $expected = <<<CODE
+function fn(?\Foo\Bar\Baz \$thing = new \Foo\Bar\Baz("param"))
+{
+    // noop
+}
+CODE;
+
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
@@ -42,7 +48,13 @@ class ArgumentExpanderTest extends TestCase
 
     public function test_argument_expansion_with_object_type_and_function_assignment()
     {
-        $expected = '? \Foo\Bar\Baz $thing = \Foo\Bar\baz("param")';
+        $expected = <<<CODE
+function fn(?\Foo\Bar\Baz \$thing = \Foo\Bar\baz("param"))
+{
+    // noop
+}
+CODE;
+
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
@@ -50,7 +62,7 @@ class ArgumentExpanderTest extends TestCase
 
     public function test_argument_expansion_with_function_assignment()
     {
-        $expected = '$thing = \Foo\Bar\baz("param")';
+        $expected = '$thing = \Foo\Bar\baz("param");';
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);

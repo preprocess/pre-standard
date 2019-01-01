@@ -5,6 +5,7 @@ namespace Pre\Standard\Expander;
 use Pre\Standard\Expander\ArgumentExpander;
 use Pre\Standard\Expander\ArgumentsExpander;
 use Pre\Standard\Expander\ClassConstantExpander;
+use Pre\Standard\Expander\ClassFunctionExpander;
 use Pre\Standard\Expander\ClassPropertyExpander;
 use Pre\Standard\Expander\NullableTypeExpander;
 use Pre\Standard\Expander\TypeExpander;
@@ -26,6 +27,11 @@ function arguments(TokenStream $stream, Engine $engine): TokenStream
 function classConstant(TokenStream $stream, Engine $engine): TokenStream
 {
     return (new ClassConstantExpander())->expand($stream, $engine);
+}
+
+function classFunction(TokenStream $stream, Engine $engine): TokenStream
+{
+    return (new ClassFunctionExpander())->expand($stream, $engine);
 }
 
 function classProperty(TokenStream $stream, Engine $engine): TokenStream

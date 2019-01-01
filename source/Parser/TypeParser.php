@@ -14,7 +14,7 @@ class TypeParser extends AbstractParser
 {
     public function parse(string $prefix = null): Parser
     {
-        return either(ns(), buffer("array"), buffer("callable"))
+        return either(ns(), buffer("array"), buffer("callable"), buffer("self"))
             ->as(named("type", $prefix))
             ->onCommit($this->onCommit);
     }

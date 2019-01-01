@@ -18,7 +18,13 @@ class ArgumentsExpanderTest extends TestCase
 
     public function test_argument_list_expansion()
     {
-        $expected = '$one = "one", string $two = "two", $three = three("three")';
+        $expected = <<<CODE
+function fn(\$one = "one", string \$two = "two", \$three = three("three"))
+{
+    // noop
+}
+CODE;
+
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);

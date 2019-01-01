@@ -16,9 +16,15 @@ class ClassConstantExpanderTest extends TestCase
         }
     ';
 
-    public function test_class_constants_expansion()
+    public function test_class_constant_expansion()
     {
-        $expected = 'public const FOO = "bar" ; static const BAR = baz("param") ;';
+        $expected = <<<CODE
+new class {
+    public const FOO = "bar";
+    static const BAR = baz("param");
+};
+CODE;
+
         $actual = $this->expand($expected);
 
         $this->assertEquals($expected, $actual);
