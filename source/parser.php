@@ -7,6 +7,7 @@ use Pre\Standard\Parser\ArgumentsParser;
 use Pre\Standard\Parser\ClassConstantParser;
 use Pre\Standard\Parser\ClassFunctionParser;
 use Pre\Standard\Parser\ClassPropertyParser;
+use Pre\Standard\Parser\ClassTraitParser;
 use Pre\Standard\Parser\NullableTypeParser;
 use Pre\Standard\Parser\TypeParser;
 use Pre\Standard\Parser\VisibilityModifiersParser;
@@ -36,6 +37,11 @@ function classFunction(string $prefix = null): Parser
 function classProperty(string $prefix = null): Parser
 {
     return (new ClassPropertyParser())->parse($prefix);
+}
+
+function classTrait(string $prefix = null): Parser
+{
+    return (new ClassTraitParser())->parse($prefix);
 }
 
 function nullableType(string $prefix = null): Parser

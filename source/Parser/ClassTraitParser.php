@@ -30,10 +30,9 @@ class ClassTraitParser extends AbstractParser
                     repeat(
                         chain(
                             chain(
-                                optional(
-                                    chain(token(T_STRING)->as(named("classTraitAliasLeftClass", $prefix)), buffer("::"))
-                                ),
-                                token(T_STRING)->as(named("classTraitAliasLeftMethod", $prefix))
+                                optional(token(T_STRING)->as(named("classTraitAliasLeftClass", $prefix))),
+                                optional(buffer("::")),
+                                optional(token(T_STRING)->as(named("classTraitAliasLeftMethod", $prefix)))
                             )->as(named("classTraitAliasLeft", $prefix)),
                             either(
                                 buffer("insteadof")->as(named("classTraitAliasInsteadOf", $prefix)),
@@ -45,13 +44,9 @@ class ClassTraitParser extends AbstractParser
                                 )->as(named("classTraitAliasAs", $prefix))
                             ),
                             chain(
-                                optional(
-                                    chain(
-                                        token(T_STRING)->as(named("classTraitAliasRightClass", $prefix)),
-                                        buffer("::")
-                                    )
-                                ),
-                                token(T_STRING)->as(named("classTraitAliasRightMethod", $prefix))
+                                optional(token(T_STRING)->as(named("classTraitAliasRightClass", $prefix))),
+                                optional(buffer("::")),
+                                optional(token(T_STRING)->as(named("classTraitAliasRightMethod", $prefix)))
                             )->as(named("classTraitAliasRight", $prefix)),
                             optional(buffer(";"))
                         )->as(named("classTraitAlias", $prefix))

@@ -53,8 +53,10 @@ trait HasExpand
 
     protected function warn($message, Exception $previous = null)
     {
+        $message = "Prettier won't format: " . PHP_EOL . PHP_EOL . $message;
+
         $result = $this->getTestResultObject();
-        $result->addWarning($this, new Warning("Error formatting: " . $message, 0, $previous), time());
+        $result->addWarning($this, new Warning($message, 0, $previous), time());
 
         $this->setTestResultObject($result);
     }

@@ -7,6 +7,7 @@ use Pre\Standard\Expander\ArgumentsExpander;
 use Pre\Standard\Expander\ClassConstantExpander;
 use Pre\Standard\Expander\ClassFunctionExpander;
 use Pre\Standard\Expander\ClassPropertyExpander;
+use Pre\Standard\Expander\ClassTraitExpander;
 use Pre\Standard\Expander\NullableTypeExpander;
 use Pre\Standard\Expander\TypeExpander;
 use function Pre\Standard\Internal\streamed;
@@ -37,6 +38,11 @@ function classFunction(TokenStream $stream, Engine $engine): TokenStream
 function classProperty(TokenStream $stream, Engine $engine): TokenStream
 {
     return (new ClassPropertyExpander())->expand($stream, $engine);
+}
+
+function classTrait(TokenStream $stream, Engine $engine): TokenStream
+{
+    return (new ClassTraitExpander())->expand($stream, $engine);
 }
 
 function nullableType(TokenStream $stream, Engine $engine): TokenStream
