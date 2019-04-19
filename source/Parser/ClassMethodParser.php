@@ -14,22 +14,22 @@ use function Yay\ns;
 use function Yay\optional;
 use function Yay\token;
 
-class ClassFunctionParser extends AbstractParser
+class ClassMethodParser extends AbstractParser
 {
     public function parse(string $prefix = null): Parser
     {
         return chain(
-            optional((new VisibilityModifiersParser())->parse(named("classFunction", $prefix))),
+            optional((new VisibilityModifiersParser())->parse(named("classMethod", $prefix))),
             buffer("function"),
-            ns()->as(named("classFunctionName", $prefix)),
+            ns()->as(named("classMethodName", $prefix)),
             buffer("("),
-            optional((new ArgumentsParser())->parse(named("classFunction", $prefix))),
+            optional((new ArgumentsParser())->parse(named("classMethod", $prefix))),
             buffer(")"),
-            optional((new ReturnTypeParser())->parse(named("classFunction", $prefix))),
+            optional((new ReturnTypeParser())->parse(named("classMethod", $prefix))),
             buffer("{"),
-            layer()->as(named("classFunctionBody", $prefix)),
+            layer()->as(named("classMethodBody", $prefix)),
             buffer("}")
         )
-            ->as(named("classFunction", $prefix));
+            ->as(named("classMethod", $prefix));
     }
 }

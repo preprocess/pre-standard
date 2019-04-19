@@ -38,10 +38,6 @@ function flattened(array $parts): string
             $name .= flattened($part);
         }
 
-        if (is_string($part)) {
-            $name .= $part;
-        }
-
         if ($part instanceof Token) {
             $name .= $part->value();
         }
@@ -65,27 +61,19 @@ function aerated(array $items): array
     return $aerated;
 }
 
-function streamed($source, Engine $engine): TokenStream
+function streamed(array $source, Engine $engine): TokenStream
 {
-    if (is_array($source)) {
-        $source = array_map(function ($item) {
-            if (is_array($item)) {
-                $item = first($item);
-            }
+    $source = array_map(function ($item) {
+        if (is_array($item)) {
+            $item = first($item);
+        }
 
-            if (is_string($item)) {
-                $item = new Token(T_STRING, $item);
-            }
+        if (is_string($item)) {
+            $item = new Token(T_STRING, $item);
+        }
 
-            return $item;
-        }, $source);
+        return $item;
+    }, $source);
 
-        return TokenStream::fromSequence(...$source);
-    }
-
-    if (is_string($source)) {
-        return TokenStream::fromSource(
-            $engine->expand($source, $engine->currentFileName(), Engine::GC_ENGINE_DISABLED)
-        );
-    }
+    return TokenStream::fromSequence(...$source);
 }

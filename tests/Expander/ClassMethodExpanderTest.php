@@ -4,15 +4,15 @@ use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;
 
-class ClassFunctionExpanderTest extends TestCase
+class ClassMethodExpanderTest extends TestCase
 {
     use HasExpand;
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\classFunction())
+            $(\Pre\Standard\Parser\classMethod())
         } >> {
-            $$(\Pre\Standard\Expander\classFunction($(classFunction)))
+            $$(\Pre\Standard\Expander\classMethod($(classMethod)))
         }
     ';
 

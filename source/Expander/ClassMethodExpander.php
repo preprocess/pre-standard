@@ -13,46 +13,46 @@ use function Pre\Standard\Internal\streamed;
 use Yay\Engine;
 use Yay\TokenStream;
 
-class ClassFunctionExpander extends AbstractExpander
+class ClassMethodExpander extends AbstractExpander
 {
     public function expand($source, Engine $engine, string $prefix = null): TokenStream
     {
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($branch = $this->find($source, named("classFunctionVisibilityModifiers", $prefix)))) {
+        if (!empty($branch = $this->find($source, named("classMethodVisibilityModifiers", $prefix)))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                [named("classFunctionVisibilityModifiers", $prefix) => $branch],
+                [named("classMethodVisibilityModifiers", $prefix) => $branch],
                 $engine,
-                "classFunction"
+                "classMethod"
             );
         }
 
         $tokens[] = "function";
-        $tokens[] = flattened($this->find($source, named("classFunctionName", $prefix)));
+        $tokens[] = flattened($this->find($source, named("classMethodName", $prefix)));
         $tokens[] = "(";
 
-        if (!empty($branch = $this->find($source, named("classFunctionArguments", $prefix)))) {
+        if (!empty($branch = $this->find($source, named("classMethodArguments", $prefix)))) {
             $tokens[] = (string) (new ArgumentsExpander())->expand(
-                [named("classFunctionArguments", $prefix) => $branch],
+                [named("classMethodArguments", $prefix) => $branch],
                 $engine,
-                "classFunction"
+                "classMethod"
             );
         }
 
         $tokens[] = ")";
 
-        if (!empty($branch = $this->find($source, named("classFunctionReturnType", $prefix)))) {
+        if (!empty($branch = $this->find($source, named("classMethodReturnType", $prefix)))) {
             $tokens[] = (string) (new ReturnTypeExpander())->expand(
-                [named("classFunctionReturnType", $prefix) => $branch],
+                [named("classMethodReturnType", $prefix) => $branch],
                 $engine,
-                named("classFunction", $prefix)
+                named("classMethod", $prefix)
             );
         }
 
         $tokens[] = "{";
 
-        if (!empty($branch = $this->find($source, named("classFunctionBody", $prefix)))) {
+        if (!empty($branch = $this->find($source, named("classMethodBody", $prefix)))) {
             $tokens[] = flattened($branch);
         }
 

@@ -5,7 +5,8 @@ namespace Pre\Standard\Parser;
 use Pre\Standard\Parser\ArgumentParser;
 use Pre\Standard\Parser\ArgumentsParser;
 use Pre\Standard\Parser\ClassConstantParser;
-use Pre\Standard\Parser\ClassFunctionParser;
+use Pre\Standard\Parser\ClassMethodParser;
+use Pre\Standard\Parser\ClassParser;
 use Pre\Standard\Parser\ClassPropertyParser;
 use Pre\Standard\Parser\ClassTraitParser;
 use Pre\Standard\Parser\NullableTypeParser;
@@ -24,14 +25,19 @@ function arguments(string $prefix = null): Parser
     return (new ArgumentsParser())->parse($prefix);
 }
 
+function cls(string $prefix = null): Parser
+{
+    return (new ClassParser())->parse($prefix);
+}
+
 function classConstant(string $prefix = null): Parser
 {
     return (new ClassConstantParser())->parse($prefix);
 }
 
-function classFunction(string $prefix = null): Parser
+function classMethod(string $prefix = null): Parser
 {
-    return (new ClassFunctionParser())->parse($prefix);
+    return (new ClassMethodParser())->parse($prefix);
 }
 
 function classProperty(string $prefix = null): Parser

@@ -4,42 +4,42 @@ use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;
 
-class ClassFunctionParserTest extends TestCase
+class ClassMethodParserTest extends TestCase
 {
     use HasExpand;
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\classFunction())
+            $(\Pre\Standard\Parser\classMethod())
         } >> {
-            $(classFunction ... {
-                $(classFunctionVisibilityModifiers ? {
-                    $(classFunctionVisibilityModifiers ...(,) {
-                        $(classFunctionVisibilityModifier ... {
-                            $$(stringify($(classFunctionVisibilityModifier)))
+            $(classMethod ... {
+                $(classMethodVisibilityModifiers ? {
+                    $(classMethodVisibilityModifiers ...(,) {
+                        $(classMethodVisibilityModifier ... {
+                            $$(stringify($(classMethodVisibilityModifier)))
                         })
                     }),
                 })
-                $(classFunctionVisibilityModifiers ! {
+                $(classMethodVisibilityModifiers ! {
                     "no modifiers",
                 })
-                $$(stringify($(classFunctionName))),
-                $(classFunctionArguments ? {
-                    $$(stringify($(classFunctionArguments))),
+                $$(stringify($(classMethodName))),
+                $(classMethodArguments ? {
+                    $$(stringify($(classMethodArguments))),
                 })
-                $(classFunctionArguments ! {
+                $(classMethodArguments ! {
                     "no arguments",
                 })
-                $(classFunctionReturnType ? {
-                    $$(stringify($(classFunctionReturnType))),
+                $(classMethodReturnType ? {
+                    $$(stringify($(classMethodReturnType))),
                 })
-                $(classFunctionReturnType ! {
+                $(classMethodReturnType ! {
                     "no return type",
                 })
-                $(classFunctionBody ? {
-                    $$(stringify($(classFunctionBody))),
+                $(classMethodBody ? {
+                    $$(stringify($(classMethodBody))),
                 })
-                $(classFunctionBody ! {
+                $(classMethodBody ! {
                     "no body",
                 })
             })
