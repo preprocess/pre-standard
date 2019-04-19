@@ -20,25 +20,25 @@ class ClassPropertyExpander extends AbstractExpander
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($source[named("classPropertyVisibilityModifiers", $prefix)])) {
+        if (!empty($branch = $this->find($source, named("classPropertyVisibilityModifiers", $prefix)))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                $source[named("classPropertyVisibilityModifiers", $prefix)],
+                [named("classPropertyVisibilityModifiers", $prefix) => $branch],
                 $engine,
-                "classProperty"
+                named("classProperty", $prefix)
             );
         }
 
-        if (!empty($source[named("classPropertyNullableType", $prefix)])) {
+        if (!empty($branch = $this->find($source, named("classPropertyNullableType", $prefix)))) {
             $tokens[] = (string) (new NullableTypeExpander())->expand(
-                $source[named("classPropertyNullableType", $prefix)],
+                [named("classPropertyNullableType", $prefix) => $branch],
                 $engine,
                 "classProperty"
             );
         }
 
-        $tokens[] = $source[named("classPropertyName", $prefix)];
+        $tokens[] = $this->find($source, named("classPropertyName", $prefix));
         $tokens[] = "=";
-        $tokens[] = flattened($source[named("classPropertyValue", $prefix)]);
+        $tokens[] = flattened($this->find($source, named("classPropertyValue", $prefix)));
         $tokens[] = ";";
 
         return streamed(aerated($tokens), $engine);

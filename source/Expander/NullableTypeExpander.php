@@ -20,16 +20,20 @@ class NullableTypeExpander extends AbstractExpander
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($source[named("nullable", $prefix)])) {
+        if (!empty($this->find($source, named("nullable", $prefix)))) {
             $tokens[] = "?";
         }
 
         // ...seems when the nullable is missing
         // type is sometimes not named or nested
-        if (empty($source[named("type", $prefix)])) {
+        if (empty($branch = $this->find($source, named("type", $prefix)))) {
             $tokens[] = flattened($source);
         } else {
-            $tokens[] = (string) (new TypeExpander())->expand($source[named("type", $prefix)], $engine, $prefix);
+            $tokens[] = (string) (new TypeExpander())->expand(
+                [named("type", $prefix) => $branch],
+                $engine,
+                $prefix
+            );
         }
 
         return streamed(aerated($tokens), $engine);

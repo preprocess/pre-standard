@@ -20,18 +20,18 @@ class ClassConstantExpander extends AbstractExpander
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($source[named("classConstantVisibilityModifiers", $prefix)])) {
+        if (!empty($branch = $this->find($source, named("classConstantVisibilityModifiers", $prefix)))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                $source[named("classConstantVisibilityModifiers", $prefix)],
+                [named("classConstantVisibilityModifiers", $prefix) => $branch],
                 $engine,
-                "classConstant"
+                named("classConstant", $prefix)
             );
         }
 
         $tokens[] = "const";
-        $tokens[] = $source[named("classConstantName", $prefix)];
+        $tokens[] = $this->find($source, named("classConstantName", $prefix));
         $tokens[] = "=";
-        $tokens[] = flattened($source[named("classConstantValue", $prefix)]);
+        $tokens[] = flattened($this->find($source, named("classConstantValue", $prefix)));
         $tokens[] = ";";
 
         return streamed(aerated($tokens), $engine);

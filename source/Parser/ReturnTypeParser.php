@@ -14,7 +14,6 @@ class ReturnTypeParser extends AbstractParser
     public function parse(string $prefix = null): Parser
     {
         return chain(buffer(":"), (new NullableTypeParser())->parse(named("return", $prefix)))
-            ->as(named("returnType", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("returnType", $prefix));
     }
 }

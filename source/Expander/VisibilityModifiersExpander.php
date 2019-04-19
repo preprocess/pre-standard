@@ -18,9 +18,10 @@ class VisibilityModifiersExpander extends AbstractExpander
     {
         $tokens = [];
         $source = $this->resolve($source);
+        $visibilityModifiers = $this->find($source, named("visibilityModifiers", $prefix));
 
-        foreach ($source as $visibilityModifier) {
-            $tokens[] = $visibilityModifier[named("visibilityModifier", $prefix)];
+        foreach ($visibilityModifiers as $visibilityModifier) {
+            $tokens[] = $this->find($visibilityModifier, named("visibilityModifier", $prefix));
         }
 
         return streamed(aerated($tokens), $engine);

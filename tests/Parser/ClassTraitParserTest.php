@@ -10,10 +10,9 @@ class ClassTraitParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\classTrait() as alias)
+            $(\Pre\Standard\Parser\classTrait())
         } >> {
-            $(alias ... {
+            $(classTrait ... {
                 $(classTraitNames ... {
                     $$(stringify($(classTraitName))),
                 })

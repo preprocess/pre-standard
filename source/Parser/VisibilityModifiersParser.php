@@ -19,7 +19,6 @@ class VisibilityModifiersParser extends AbstractParser
                 named("visibilityModifier", $prefix)
             )
         )
-            ->as(named("visibilityModifiers", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("visibilityModifiers", $prefix));
     }
 }

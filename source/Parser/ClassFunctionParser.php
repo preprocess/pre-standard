@@ -30,7 +30,6 @@ class ClassFunctionParser extends AbstractParser
             layer()->as(named("classFunctionBody", $prefix)),
             buffer("}")
         )
-            ->as(named("classFunction", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("classFunction", $prefix));
     }
 }

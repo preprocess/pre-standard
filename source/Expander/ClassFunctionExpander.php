@@ -20,21 +20,21 @@ class ClassFunctionExpander extends AbstractExpander
         $tokens = [];
         $source = $this->resolve($source);
 
-        if (!empty($source[named("classFunctionVisibilityModifiers", $prefix)])) {
+        if (!empty($branch = $this->find($source, named("classFunctionVisibilityModifiers", $prefix)))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                $source[named("classFunctionVisibilityModifiers", $prefix)],
+                [named("classFunctionVisibilityModifiers", $prefix) => $branch],
                 $engine,
                 "classFunction"
             );
         }
 
         $tokens[] = "function";
-        $tokens[] = flattened($source[named("classFunctionName", $prefix)]);
+        $tokens[] = flattened($this->find($source, named("classFunctionName", $prefix)));
         $tokens[] = "(";
 
-        if (!empty($source[named("classFunctionVisibilityModifiers", $prefix)])) {
+        if (!empty($branch = $this->find($source, named("classFunctionArguments", $prefix)))) {
             $tokens[] = (string) (new ArgumentsExpander())->expand(
-                $source[named("classFunctionArguments", $prefix)],
+                [named("classFunctionArguments", $prefix) => $branch],
                 $engine,
                 "classFunction"
             );
@@ -42,18 +42,18 @@ class ClassFunctionExpander extends AbstractExpander
 
         $tokens[] = ")";
 
-        if (!empty($source[named("classFunctionReturnType", $prefix)])) {
+        if (!empty($branch = $this->find($source, named("classFunctionReturnType", $prefix)))) {
             $tokens[] = (string) (new ReturnTypeExpander())->expand(
-                $source[named("classFunctionReturnType", $prefix)],
+                [named("classFunctionReturnType", $prefix) => $branch],
                 $engine,
-                "classFunction"
+                named("classFunction", $prefix)
             );
         }
 
         $tokens[] = "{";
 
-        if (!empty($source[named("classFunctionBody", $prefix)])) {
-            $tokens[] = flattened($source[named("classFunctionBody", $prefix)]);
+        if (!empty($branch = $this->find($source, named("classFunctionBody", $prefix)))) {
+            $tokens[] = flattened($branch);
         }
 
         $tokens[] = "}";

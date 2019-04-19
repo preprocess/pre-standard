@@ -10,10 +10,9 @@ class TypeParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\type() as alias)
+            $(\Pre\Standard\Parser\type())
         } >> {
-            $$(stringify($(alias)))
+            $$(stringify($(type)))
         }
     ';
 

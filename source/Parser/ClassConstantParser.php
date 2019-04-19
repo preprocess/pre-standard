@@ -24,7 +24,6 @@ class ClassConstantParser extends AbstractParser
             expression()->as(named("classConstantValue", $prefix)),
             optional(buffer(";"))
         )
-            ->as(named("classConstant", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("classConstant", $prefix));
     }
 }

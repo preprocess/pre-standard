@@ -20,21 +20,17 @@ class ClassTraitExpander extends AbstractExpander
         $tokens = ["use"];
         $source = $this->resolve($source);
 
-        foreach ($source[named("classTraitNames", $prefix)] as $classTraitName) {
+        foreach ($this->find($source, named("classTraitNames", $prefix)) as $classTraitName) {
             $tokens[] = flattened($classTraitName);
             $tokens[] = ",";
         }
 
         array_pop($tokens);
 
-        if (!empty($source[named("classTraitBody", $prefix)])) {
-            $branch = $source[named("classTraitBody", $prefix)];
-
+        if (!empty($branch = $this->find($source, named("classTraitBody", $prefix)))) {
             $tokens[] = "{";
 
-            foreach ($branch[named("classTraitAliases", $prefix)] as $classTraitAlias) {
-                $leaf = $branch[named("classTraitAliases", $prefix)][0];
-
+            foreach ($leaf = $this->find($branch, named("classTraitAliases", $prefix)) as $classTraitAlias) {
                 $alias = $classTraitAlias["classTraitAlias"];
 
                 if (!empty($alias["classTraitAliasLeft"]["classTraitAliasLeftClass"])) {
@@ -58,9 +54,9 @@ class ClassTraitExpander extends AbstractExpander
 
                     if (!empty($alias["classTraitAliasAs"]["classTraitAliasVisibilityModifiers"])) {
                         $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                            $alias["classTraitAliasAs"]["classTraitAliasVisibilityModifiers"],
+                            [named("classTraitAliasVisibilityModifiers", $prefix) => $alias["classTraitAliasAs"]["classTraitAliasVisibilityModifiers"]],
                             $engine,
-                            "classTraitAlias",
+                            named("classTraitAlias", $prefix),
                         );
                     }
                 }

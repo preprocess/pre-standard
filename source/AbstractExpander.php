@@ -2,27 +2,41 @@
 
 namespace Pre\Standard;
 
-use function Pre\Standard\Internal\match;
-
 use Yay\Ast;
 use Yay\Engine;
+use Yay\Token;
 use Yay\TokenStream;
 
 abstract class AbstractExpander
 {
-    protected function resolve($source): array
+    protected function resolve($source)
     {
-        // this will get an Ast from a TokenStream
         if ($source instanceof TokenStream) {
-            $source = match($source);
+            $source = $source->getAst();
         }
 
-        // this will get a nested array from an Ast
+        return $source;
+    }
+
+    protected function find($source, $find)
+    {
         if ($source instanceof Ast) {
             $source = $source->unwrap();
         }
 
-        return $source;
+        foreach ($source as $key => $value) {
+            if ($key === $find) {
+                return $value;
+            }
+
+            if (is_array($value)) {
+                if (!empty($result = $this->find($value, $find))) {
+                    return $result;
+                }
+            }
+        }
+
+        return null;
     }
 
     abstract public function expand($source, Engine $engine, string $prefix = null): TokenStream;

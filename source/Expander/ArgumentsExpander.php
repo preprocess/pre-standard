@@ -18,10 +18,11 @@ class ArgumentsExpander extends AbstractExpander
     {
         $tokens = [];
         $source = $this->resolve($source);
+        $arguments = $this->find($source, named("arguments", $prefix));
 
-        foreach ($source as $argument) {
+        foreach ($arguments as $argument) {
             $tokens[] = (string) (new ArgumentExpander())->expand(
-                $argument[named("argument", $prefix)],
+                [named("argument", $prefix) => $argument],
                 $engine,
                 $prefix
             );

@@ -27,7 +27,6 @@ class ArgumentParser extends AbstractParser
                 )
             )->as(named("argumentAssignment", $prefix))
         )
-            ->as(named("argument", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("argument", $prefix));
     }
 }

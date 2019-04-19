@@ -15,7 +15,6 @@ class NullableTypeParser extends AbstractParser
     public function parse(string $prefix = null): Parser
     {
         return chain(optional(buffer("?"))->as(named("nullable", $prefix)), (new TypeParser())->parse($prefix))
-            ->as(named("nullableType", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("nullableType", $prefix));
     }
 }

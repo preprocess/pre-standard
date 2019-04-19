@@ -10,17 +10,16 @@ class ArgumentsParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\arguments() as alias)
+            $(\Pre\Standard\Parser\arguments())
         } >> {
-            $(alias ...(,) {
+            $(arguments ...(,) {
 
                 // ...not really interested in re-testing the argument
                 // parser so this is just to make sure arguments() is
-                // returning all the elements argument() needs
+                // breaking apart a list of arguments correctly
 
                 $$(stringify(
-                    $$(\Pre\Standard\Expander\argument($(argument)))
+                    $(argument)
                 ))
             })
         }
@@ -36,7 +35,7 @@ class ArgumentsParserTest extends TestCase
 
         $items = eval($code);
 
-        $expected = ['$one = "one"', 'string $two = "two"'];
+        $expected = ['$one="one"', 'string$two="two"'];
 
         $actual = array_map(function ($item) {
             return trim($item);

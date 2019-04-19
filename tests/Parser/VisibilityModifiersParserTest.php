@@ -10,10 +10,9 @@ class VisibilityModifiersParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\visibilityModifiers() as alias)
+            $(\Pre\Standard\Parser\visibilityModifiers())
         } >> {
-            $$(stringify($(alias)))
+            $$(stringify($(visibilityModifiers)))
         }
     ';
 

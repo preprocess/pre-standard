@@ -56,7 +56,6 @@ class ClassTraitParser extends AbstractParser
                 optional(buffer(";"))
             )
         )
-            ->as(named("classTrait", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("classTrait", $prefix));
     }
 }

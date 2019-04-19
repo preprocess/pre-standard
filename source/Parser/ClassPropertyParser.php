@@ -24,7 +24,6 @@ class ClassPropertyParser extends AbstractParser
             optional(expression())->as(named("classPropertyValue", $prefix)),
             optional(buffer(";"))
         )
-            ->as(named("classProperty", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("classProperty", $prefix));
     }
 }

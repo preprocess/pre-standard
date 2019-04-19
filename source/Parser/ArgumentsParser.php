@@ -14,7 +14,6 @@ class ArgumentsParser extends AbstractParser
     public function parse(string $prefix = null): Parser
     {
         return ls((new ArgumentParser())->parse($prefix), buffer(","))
-            ->as(named("arguments", $prefix))
-            ->onCommit($this->onCommit);
+            ->as(named("arguments", $prefix));
     }
 }

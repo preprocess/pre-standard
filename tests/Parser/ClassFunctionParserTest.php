@@ -10,10 +10,9 @@ class ClassFunctionParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\classFunction() as alias)
+            $(\Pre\Standard\Parser\classFunction())
         } >> {
-            $(alias ... {
+            $(classFunction ... {
                 $(classFunctionVisibilityModifiers ? {
                     $(classFunctionVisibilityModifiers ...(,) {
                         $(classFunctionVisibilityModifier ... {

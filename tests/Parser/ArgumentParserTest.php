@@ -10,10 +10,9 @@ class ArgumentParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\argument() as alias)
+            $(\Pre\Standard\Parser\argument())
         } >> {
-            $(alias ... {
+            $(argument ... {
                 $(argumentNullableType ? {
                     $(argumentNullableType ... {
                         $(argumentNullable ? {

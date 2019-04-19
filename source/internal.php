@@ -2,9 +2,6 @@
 
 namespace Pre\Standard\Internal;
 
-use Pre\Standard\Exception\AstMissingException;
-use function Pre\Standard\Internal\flattened;
-
 use Yay\Ast;
 use Yay\Engine;
 use Yay\Token;
@@ -17,27 +14,6 @@ function named($name, $prefix = null): string
     }
 
     return $name;
-}
-
-function store(Ast $ast)
-{
-    if (!isset($GLOBALS["PRE_AST"])) {
-        $GLOBALS["PRE_AST"] = [];
-    }
-
-    $tokens = flattened($ast->tokens());
-    $GLOBALS["PRE_AST"][md5($tokens)] = $ast;
-}
-
-function match(TokenStream $stream)
-{
-    $hash = md5((string) $stream);
-
-    if (isset($GLOBALS["PRE_AST"][$hash])) {
-        return $GLOBALS["PRE_AST"][$hash];
-    }
-
-    throw new AstMissingException();
 }
 
 function first($item)

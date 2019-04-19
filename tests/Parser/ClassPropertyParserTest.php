@@ -10,10 +10,9 @@ class ClassPropertyParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            // https://github.com/marcioAlmada/yay/issues/56
-            $(\Pre\Standard\Parser\classProperty() as alias)
+            $(\Pre\Standard\Parser\classProperty())
         } >> {
-            $(alias ... {
+            $(classProperty ... {
                 $(classPropertyVisibilityModifiers ? {
                     $(classPropertyVisibilityModifiers ...(,) {
                         $(classPropertyVisibilityModifier ... {
