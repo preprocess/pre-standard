@@ -2,23 +2,19 @@
 
 namespace Pre\Standard\Expander;
 
-use function join;
-
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
-
+use Yay\Ast;
 use Yay\Engine;
-use Yay\TokenStream;
 
 class VisibilityModifiersExpander extends AbstractExpander
 {
-    public function expand($source, Engine $engine, string $prefix = null): TokenStream
+    public function expand(Ast $ast, Engine $engine, string $prefix = null)
     {
         $tokens = [];
-        $source = $this->resolve($source);
-        $visibilityModifiers = $this->find($source, named("visibilityModifiers", $prefix));
+        $visibilityModifiers = $this->find($ast, named("visibilityModifiers", $prefix));
 
         foreach ($visibilityModifiers as $visibilityModifier) {
             $tokens[] = $this->find($visibilityModifier, named("visibilityModifier", $prefix));

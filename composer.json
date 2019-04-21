@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
-        "yay/yay": "dev-master"
+        "yay/yay": "dev-composable-expanders"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

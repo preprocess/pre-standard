@@ -7,6 +7,7 @@ use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;
+use function Yay\chain;
 use function Yay\ls;
 
 class ArgumentsParser extends AbstractParser

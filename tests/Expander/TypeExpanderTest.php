@@ -18,10 +18,10 @@ class TypeExpanderTest extends TestCase
     public function test_type_expansion()
     {
         $expected = <<<CODE
-function fn(string \$one, bool \$two, int \$three)
+function(string \$one, bool \$two, int \$three)
 {
     // noop
-}
+};
 CODE;
 
         $actual = $this->expand($expected);

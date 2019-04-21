@@ -12,58 +12,59 @@ use Pre\Standard\Expander\NullableTypeExpander;
 use Pre\Standard\Expander\TypeExpander;
 use function Pre\Standard\Internal\streamed;
 
+use Yay\Ast;
 use Yay\Engine;
-use Yay\TokenStream;
+// use Yay\TokenStream;
 
-function argument(TokenStream $stream, Engine $engine): TokenStream
+function argument(Ast $ast, Engine $engine)
 {
-    return (new ArgumentExpander())->expand($stream, $engine);
+    return (new ArgumentExpander())->expand($ast, $engine);
 }
 
-function arguments(TokenStream $stream, Engine $engine): TokenStream
+function arguments(Ast $ast, Engine $engine)
 {
-    return (new ArgumentsExpander())->expand($stream, $engine);
+    return (new ArgumentsExpander())->expand($ast, $engine);
 }
 
-function classConstant(TokenStream $stream, Engine $engine): TokenStream
+function classConstant(Ast $ast, Engine $engine)
 {
-    return (new ClassConstantExpander())->expand($stream, $engine);
+    return (new ClassConstantExpander())->expand($ast, $engine);
 }
 
-function classMethod(TokenStream $stream, Engine $engine): TokenStream
+function classMethod(Ast $ast, Engine $engine)
 {
-    return (new ClassMethodExpander())->expand($stream, $engine);
+    return (new ClassMethodExpander())->expand($ast, $engine);
 }
 
-function classProperty(TokenStream $stream, Engine $engine): TokenStream
+function classProperty(Ast $ast, Engine $engine)
 {
-    return (new ClassPropertyExpander())->expand($stream, $engine);
+    return (new ClassPropertyExpander())->expand($ast, $engine);
 }
 
-function classTrait(TokenStream $stream, Engine $engine): TokenStream
+function classTrait(Ast $ast, Engine $engine)
 {
-    return (new ClassTraitExpander())->expand($stream, $engine);
+    return (new ClassTraitExpander())->expand($ast, $engine);
 }
 
-function nullableType(TokenStream $stream, Engine $engine): TokenStream
+function nullableType(Ast $ast, Engine $engine)
 {
-    return (new NullableTypeExpander())->expand($stream, $engine);
+    return (new NullableTypeExpander())->expand($ast, $engine);
 }
 
-function studly(TokenStream $stream, Engine $engine): TokenStream
+function studly(Ast $ast, Engine $engine)
 {
     $stream = \str_replace(["-", "_"], " ", $stream);
     $stream = \str_replace(" ", "", \ucwords($stream));
 
-    return streamed($stream, $engine);
+    return streamed($ast, $engine);
 }
 
-function type(TokenStream $stream, Engine $engine): TokenStream
+function type(Ast $ast, Engine $engine)
 {
-    return (new TypeExpander())->expand($stream, $engine);
+    return (new TypeExpander())->expand($ast, $engine);
 }
 
-function visibilityModifiers(TokenStream $stream, Engine $engine): TokenStream
+function visibilityModifiers(Ast $ast, Engine $engine)
 {
-    return (new VisibilityModifiersExpander())->expand($stream, $engine);
+    return (new VisibilityModifiersExpander())->expand($ast, $engine);
 }

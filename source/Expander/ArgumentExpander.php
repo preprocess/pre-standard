@@ -7,28 +7,26 @@ use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
-
+use Yay\Ast;
 use Yay\Engine;
-use Yay\TokenStream;
 
 class ArgumentExpander extends AbstractExpander
 {
-    public function expand($source, Engine $engine, string $prefix = null): TokenStream
+    public function expand(Ast $ast, Engine $engine, string $prefix = null)
     {
         $tokens = [];
-        $source = $this->resolve($source);
 
-        if (!empty($branch = $this->find($source, named("argumentNullableType", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("argumentNullableType", $prefix)))) {
             $tokens[] = (string) (new NullableTypeExpander())->expand(
-                [named("argumentNullableType", $prefix) => $branch],
+                new Ast("", [named("argumentNullableType", $prefix) => $branch]),
                 $engine,
                 named("argument", $prefix)
             );
         }
 
-        $tokens[] = $this->find($source, named("argumentName", $prefix));
+        $tokens[] = $this->find($ast, named("argumentName", $prefix));
 
-        if (!empty($branch = $this->find($source, named("argumentAssignment", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("argumentAssignment", $prefix)))) {
             $tokens[] = "=";
 
             if (!empty($this->find($branch, named("argumentNew", $prefix)))) {

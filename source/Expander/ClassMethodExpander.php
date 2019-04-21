@@ -2,39 +2,35 @@
 
 namespace Pre\Standard\Expander;
 
-use function join;
-
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
-
+use Yay\Ast;
 use Yay\Engine;
-use Yay\TokenStream;
 
 class ClassMethodExpander extends AbstractExpander
 {
-    public function expand($source, Engine $engine, string $prefix = null): TokenStream
+    public function expand(Ast $ast, Engine $engine, string $prefix = null)
     {
         $tokens = [];
-        $source = $this->resolve($source);
 
-        if (!empty($branch = $this->find($source, named("classMethodVisibilityModifiers", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("classMethodVisibilityModifiers", $prefix)))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                [named("classMethodVisibilityModifiers", $prefix) => $branch],
+                new Ast("", [named("classMethodVisibilityModifiers", $prefix) => $branch]),
                 $engine,
                 "classMethod"
             );
         }
 
         $tokens[] = "function";
-        $tokens[] = flattened($this->find($source, named("classMethodName", $prefix)));
+        $tokens[] = flattened($this->find($ast, named("classMethodName", $prefix)));
         $tokens[] = "(";
 
-        if (!empty($branch = $this->find($source, named("classMethodArguments", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("classMethodArguments", $prefix)))) {
             $tokens[] = (string) (new ArgumentsExpander())->expand(
-                [named("classMethodArguments", $prefix) => $branch],
+                new Ast("", [named("classMethodArguments", $prefix) => $branch]),
                 $engine,
                 "classMethod"
             );
@@ -42,9 +38,9 @@ class ClassMethodExpander extends AbstractExpander
 
         $tokens[] = ")";
 
-        if (!empty($branch = $this->find($source, named("classMethodReturnType", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("classMethodReturnType", $prefix)))) {
             $tokens[] = (string) (new ReturnTypeExpander())->expand(
-                [named("classMethodReturnType", $prefix) => $branch],
+                new Ast("", [named("classMethodReturnType", $prefix) => $branch]),
                 $engine,
                 named("classMethod", $prefix)
             );
@@ -52,7 +48,7 @@ class ClassMethodExpander extends AbstractExpander
 
         $tokens[] = "{";
 
-        if (!empty($branch = $this->find($source, named("classMethodBody", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("classMethodBody", $prefix)))) {
             $tokens[] = flattened($branch);
         }
 

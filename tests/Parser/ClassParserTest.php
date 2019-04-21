@@ -42,7 +42,7 @@ class ClassParserTest extends TestCase
                         "member" ,
 
                         $(classConstant ? {
-                            $$(stringify($$(\Pre\Standard\Expander\classConstant($(classConstant))))) ,
+                            $$(\Pre\Standard\Expander\classConstant($(classConstant))) ,
                         })
                     })
                 })

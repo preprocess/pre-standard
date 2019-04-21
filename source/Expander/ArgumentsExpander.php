@@ -2,27 +2,22 @@
 
 namespace Pre\Standard\Expander;
 
-use function join;
-
 use Pre\Standard\AbstractExpander;
-use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
-
+use Yay\Ast;
 use Yay\Engine;
-use Yay\TokenStream;
 
 class ArgumentsExpander extends AbstractExpander
 {
-    public function expand($source, Engine $engine, string $prefix = null): TokenStream
+    public function expand(Ast $ast, Engine $engine, string $prefix = null)
     {
         $tokens = [];
-        $source = $this->resolve($source);
-        $arguments = $this->find($source, named("arguments", $prefix));
+        $arguments = $this->find($ast, named("arguments", $prefix));
 
         foreach ($arguments as $argument) {
             $tokens[] = (string) (new ArgumentExpander())->expand(
-                [named("argument", $prefix) => $argument],
+                new Ast("", [named("argument", $prefix) => $argument]),
                 $engine,
                 $prefix
             );

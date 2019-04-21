@@ -2,32 +2,28 @@
 
 namespace Pre\Standard\Expander;
 
-use function join;
-
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\flattened;
 use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
-
+use Yay\Ast;
 use Yay\Engine;
-use Yay\TokenStream;
 
 class ClassTraitExpander extends AbstractExpander
 {
-    public function expand($source, Engine $engine, string $prefix = null): TokenStream
+    public function expand(Ast $ast, Engine $engine, string $prefix = null)
     {
         $tokens = ["use"];
-        $source = $this->resolve($source);
 
-        foreach ($this->find($source, named("classTraitNames", $prefix)) as $classTraitName) {
+        foreach ($this->find($ast, named("classTraitNames", $prefix)) as $classTraitName) {
             $tokens[] = flattened($classTraitName);
             $tokens[] = ",";
         }
 
         array_pop($tokens);
 
-        if (!empty($branch = $this->find($source, named("classTraitBody", $prefix)))) {
+        if (!empty($branch = $this->find($ast, named("classTraitBody", $prefix)))) {
             $tokens[] = "{";
 
             foreach ($leaf = $this->find($branch, named("classTraitAliases", $prefix)) as $classTraitAlias) {
@@ -54,7 +50,7 @@ class ClassTraitExpander extends AbstractExpander
 
                     if (!empty($alias["classTraitAliasAs"]["classTraitAliasVisibilityModifiers"])) {
                         $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                            [named("classTraitAliasVisibilityModifiers", $prefix) => $alias["classTraitAliasAs"]["classTraitAliasVisibilityModifiers"]],
+                            new Ast("", [named("classTraitAliasVisibilityModifiers", $prefix) => $alias["classTraitAliasAs"]["classTraitAliasVisibilityModifiers"]]),
                             $engine,
                             named("classTraitAlias", $prefix),
                         );
