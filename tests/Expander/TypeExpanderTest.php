@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;
@@ -9,7 +10,7 @@ class TypeExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\type())
+            $(\Pre\Standard\Parser\type()) as type
         } >> {
             $$(\Pre\Standard\Expander\type($(type)))
         }

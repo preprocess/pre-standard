@@ -11,5 +11,10 @@ use Yay\Parser;
 
 abstract class AbstractParser
 {
-    abstract public function parse(string $prefix = null): Parser;
+    public function __invoke(...$params)
+    {
+        return $this->parse(...$params);
+    }
+
+    abstract public function parse(): Parser;
 }

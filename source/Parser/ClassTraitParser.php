@@ -3,7 +3,6 @@
 namespace Pre\Standard\Parser;
 
 use Pre\Standard\AbstractParser;
-use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;
@@ -19,43 +18,44 @@ use function Yay\token;
 
 class ClassTraitParser extends AbstractParser
 {
-    public function parse(string $prefix = null): Parser
+    public function parse(): Parser
     {
         return chain(
             buffer("use"),
-            ls(ns()->as(named("classTraitName", $prefix)), buffer(","))->as(named("classTraitNames", $prefix)),
+            ls(
+                ns()->as("classTraitName"), buffer(",")
+            )->as("classTraitNames"),
             either(
                 chain(
                     buffer("{"),
                     repeat(
                         chain(
                             chain(
-                                optional(token(T_STRING)->as(named("classTraitAliasLeftClass", $prefix))),
+                                optional(token(T_STRING)->as("classTraitAliasLeftClass")),
                                 optional(buffer("::")),
-                                optional(token(T_STRING)->as(named("classTraitAliasLeftMethod", $prefix)))
-                            )->as(named("classTraitAliasLeft", $prefix)),
+                                optional(token(T_STRING)->as("classTraitAliasLeftMethod"))
+                            )->as("classTraitAliasLeft"),
                             either(
-                                buffer("insteadof")->as(named("classTraitAliasInsteadOf", $prefix)),
+                                buffer("insteadof")->as("classTraitAliasInsteadOf"),
                                 chain(
                                     buffer("as"),
                                     optional(
-                                        (new VisibilityModifiersParser())->parse(named("classTraitAlias", $prefix))
+                                        (new VisibilityModifiersParser())->parse()
                                     )
-                                )->as(named("classTraitAliasAs", $prefix))
+                                )->as("classTraitAliasAs")
                             ),
                             chain(
-                                optional(token(T_STRING)->as(named("classTraitAliasRightClass", $prefix))),
+                                optional(token(T_STRING)->as("classTraitAliasRightClass")),
                                 optional(buffer("::")),
-                                optional(token(T_STRING)->as(named("classTraitAliasRightMethod", $prefix)))
-                            )->as(named("classTraitAliasRight", $prefix)),
+                                optional(token(T_STRING)->as("classTraitAliasRightMethod"))
+                            )->as("classTraitAliasRight"),
                             optional(buffer(";"))
-                        )->as(named("classTraitAlias", $prefix))
-                    )->as(named("classTraitAliases", $prefix)),
+                        )->as("classTraitAlias")
+                    )->as("classTraitAliases"),
                     buffer("}")
-                )->as(named("classTraitBody", $prefix)),
+                )->as("classTraitBody"),
                 optional(buffer(";"))
             )
-        )
-            ->as(named("classTrait", $prefix));
+        )->as("classTrait");
     }
 }

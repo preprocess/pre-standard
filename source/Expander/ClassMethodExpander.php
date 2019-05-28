@@ -5,50 +5,48 @@ namespace Pre\Standard\Expander;
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\flattened;
-use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
+
 use Yay\Ast;
 use Yay\Engine;
+use Yay\TokenStream;
 
 class ClassMethodExpander extends AbstractExpander
 {
-    public function expand(Ast $ast, Engine $engine, string $prefix = null)
+    public function expand(Ast $ast, Engine $engine): TokenStream
     {
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, named("classMethodVisibilityModifiers", $prefix)))) {
+        if (!empty($branch = $this->find($ast, "visibilityModifiers"))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                new Ast("", [named("classMethodVisibilityModifiers", $prefix) => $branch]),
-                $engine,
-                "classMethod"
+                new Ast("", ["visibilityModifiers" => $branch]),
+                $engine
             );
         }
 
         $tokens[] = "function";
-        $tokens[] = flattened($this->find($ast, named("classMethodName", $prefix)));
+        $tokens[] = flattened($this->find($ast, "classMethodName"));
         $tokens[] = "(";
 
-        if (!empty($branch = $this->find($ast, named("classMethodArguments", $prefix)))) {
+        if (!empty($branch = $this->find($ast, "arguments"))) {
             $tokens[] = (string) (new ArgumentsExpander())->expand(
-                new Ast("", [named("classMethodArguments", $prefix) => $branch]),
-                $engine,
-                "classMethod"
+                new Ast("", ["arguments" => $branch]),
+                $engine
             );
         }
 
         $tokens[] = ")";
 
-        if (!empty($branch = $this->find($ast, named("classMethodReturnType", $prefix)))) {
-            $tokens[] = (string) (new ReturnTypeExpander())->expand(
-                new Ast("", [named("classMethodReturnType", $prefix) => $branch]),
-                $engine,
-                named("classMethod", $prefix)
+        if (!empty($branch = $this->find($ast, "nullableReturnType"))) {
+            $tokens[] = (string) (new NullableReturnTypeExpander())->expand(
+                new Ast("", ["nullableReturnType" => $branch]),
+                $engine
             );
         }
 
         $tokens[] = "{";
 
-        if (!empty($branch = $this->find($ast, named("classMethodBody", $prefix)))) {
+        if (!empty($branch = $this->find($ast, "classMethodBody"))) {
             $tokens[] = flattened($branch);
         }
 

@@ -3,38 +3,50 @@
 namespace Pre\Standard\Parser;
 
 use Pre\Standard\AbstractParser;
-use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;
 use function Yay\chain;
+use function Yay\layer;
 use function Yay\repeat;
 use function Yay\either;
 use function Yay\ls;
 use function Yay\ns;
 use function Yay\optional;
+use function Yay\token;
 
 class ClassParser extends AbstractParser
 {
-    public function parse(string $prefix = null): Parser
+    public function parse(): Parser
     {
         return chain(
-            buffer("class"),
-            optional(ns()->as("className")),
+            either(
+                chain(
+                    buffer("new"),
+                    buffer("class"),
+                    optional(buffer("(")),
+                    optional(layer())->as("classArguments"),
+                    optional(buffer(")"))
+                )->as("classAnonymous"),
+                chain(
+                    buffer("class"),
+                    ns()->as("className"),
+                )->as("classNamed"),
+            ),
             optional(
                 repeat(
                     either(
                         chain(
                             buffer("extends"),
-                            ns()->as(named("classExtendsType", $prefix))
-                        )->as(named("classExtends", $prefix)),
+                            ns()->as("classExtendsType")
+                        ),
                         chain(
                             buffer("implements"),
                             ls(
-                                ns()->as(named("classImplementsType", $prefix)),
+                                ns()->as("classImplementsType"),
                                 buffer(",")
-                            )->as(named("classImplementsTypes", $prefix)),
-                        )->as(named("classImplements", $prefix))
+                            )->as("classImplementsTypes"),
+                        )
                     )
                 )->as("classModifiers")
             ),
@@ -42,14 +54,14 @@ class ClassParser extends AbstractParser
             optional(
                 repeat(
                     either(
-                        (new ClassTraitParser())->parse($prefix),
-                        (new ClassConstantParser())->parse($prefix),
-                        (new ClassPropertyParser())->parse($prefix),
-                        (new ClassMethodParser())->parse($prefix),
+                        (new ClassTraitParser())->parse(),
+                        (new ClassConstantParser())->parse(),
+                        (new ClassPropertyParser())->parse(),
+                        (new ClassMethodParser())->parse()
                     )
-                )->as(named("classMembers", $prefix))
+                )->as("classMembers")
             ),
             buffer("}")
-        )->as(named("class", $prefix));
+        )->as("cls");
     }
 }

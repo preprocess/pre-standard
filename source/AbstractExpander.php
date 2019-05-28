@@ -9,6 +9,11 @@ use Yay\TokenStream;
 
 abstract class AbstractExpander
 {
+    public function __invoke(...$params)
+    {
+        return $this->expand(...$params);
+    }
+
     protected function find($source, $find)
     {
         if ($source instanceof Ast) {
@@ -34,5 +39,5 @@ abstract class AbstractExpander
         return null;
     }
 
-    abstract public function expand(Ast $ast, Engine $engine, string $prefix = null);
+    abstract public function expand(Ast $ast, Engine $engine): TokenStream;
 }

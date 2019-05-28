@@ -10,7 +10,7 @@ class VisibilityModifiersExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\visibilityModifiers())
+            $(\Pre\Standard\Parser\visibilityModifiers()) as visibilityModifiers
         } >> {
             $$(\Pre\Standard\Expander\visibilityModifiers($(visibilityModifiers)))
         }

@@ -13,27 +13,27 @@ class ClassMethodParserTest extends TestCase
             $(\Pre\Standard\Parser\classMethod())
         } >> {
             $(classMethod ... {
-                $(classMethodVisibilityModifiers ? {
-                    $(classMethodVisibilityModifiers ...(,) {
-                        $(classMethodVisibilityModifier ... {
-                            $$(stringify($(classMethodVisibilityModifier)))
+                $(visibilityModifiers ? {
+                    $(visibilityModifiers ...(,) {
+                        $(visibilityModifier ... {
+                            $$(stringify($(visibilityModifier)))
                         })
                     }),
                 })
-                $(classMethodVisibilityModifiers ! {
+                $(visibilityModifiers ! {
                     "no modifiers",
                 })
                 $$(stringify($(classMethodName))),
-                $(classMethodArguments ? {
-                    $$(stringify($(classMethodArguments))),
+                $(arguments ? {
+                    $$(stringify($(arguments))),
                 })
-                $(classMethodArguments ! {
+                $(arguments ! {
                     "no arguments",
                 })
-                $(classMethodReturnType ? {
-                    $$(stringify($(classMethodReturnType))),
+                $(returnType ? {
+                    $$(stringify($(returnType))),
                 })
-                $(classMethodReturnType ! {
+                $(returnType ! {
                     "no return type",
                 })
                 $(classMethodBody ? {
@@ -46,7 +46,7 @@ class ClassMethodParserTest extends TestCase
         }
     ';
 
-    public function test_identifies_class_constants()
+    public function test_identifies_class_methods()
     {
         $code = $this->expand('
             return [

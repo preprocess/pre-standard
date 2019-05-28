@@ -4,18 +4,20 @@ namespace Pre\Standard\Expander;
 
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\flattened;
-use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
+
 use Yay\Ast;
 use Yay\Engine;
+use Yay\TokenStream;
 
 class TypeExpander extends AbstractExpander
 {
-    public function expand(Ast $ast, Engine $engine, string $prefix = null)
+    public function expand(Ast $ast, Engine $engine): TokenStream
     {
+        die("here");
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, named("type", $prefix)))) {
+        if (!empty($branch = $this->find($ast, "type"))) {
             $tokens[] = flattened($branch);
         }
 

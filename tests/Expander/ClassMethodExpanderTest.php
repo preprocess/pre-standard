@@ -10,7 +10,7 @@ class ClassMethodExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\classMethod())
+            $(\Pre\Standard\Parser\classMethod()) as classMethod
         } >> {
             $$(\Pre\Standard\Expander\classMethod($(classMethod)))
         }

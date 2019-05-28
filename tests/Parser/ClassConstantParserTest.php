@@ -13,10 +13,10 @@ class ClassConstantParserTest extends TestCase
             $(\Pre\Standard\Parser\classConstant())
         } >> {
             $(classConstant ... {
-                $(classConstantVisibilityModifiers ? {
-                    $(classConstantVisibilityModifiers ...(,) {
-                        $(classConstantVisibilityModifier ... {
-                            $$(stringify($(classConstantVisibilityModifier)))
+                $(visibilityModifiers ? {
+                    $(visibilityModifiers ...(,) {
+                        $(visibilityModifier ... {
+                            $$(stringify($(visibilityModifier)))
                         })
                     }),
                 })

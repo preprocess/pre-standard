@@ -13,21 +13,21 @@ class ClassPropertyParserTest extends TestCase
             $(\Pre\Standard\Parser\classProperty())
         } >> {
             $(classProperty ... {
-                $(classPropertyVisibilityModifiers ? {
-                    $(classPropertyVisibilityModifiers ...(,) {
-                        $(classPropertyVisibilityModifier ... {
-                            $$(stringify($(classPropertyVisibilityModifier)))
+                $(visibilityModifiers ? {
+                    $(visibilityModifiers ...(,) {
+                        $(visibilityModifier ... {
+                            $$(stringify($(visibilityModifier)))
                         })
                     }),
                 })
     
-                $(classPropertyNullableType ? {
-                    $(classPropertyNullableType ... {
-                        $(classPropertyNullable ? {
+                $(nullableType ? {
+                    $(nullableType ... {
+                        $(nullable ? {
                             "nullable",
                         })
     
-                        $$(stringify($(classPropertyType))),
+                        $$(stringify($(type))),
                     })
                 })
     

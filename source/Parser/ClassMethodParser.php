@@ -3,7 +3,6 @@
 namespace Pre\Standard\Parser;
 
 use Pre\Standard\AbstractParser;
-use function Pre\Standard\Internal\named;
 
 use Yay\Parser;
 use function Yay\buffer;
@@ -16,20 +15,25 @@ use function Yay\token;
 
 class ClassMethodParser extends AbstractParser
 {
-    public function parse(string $prefix = null): Parser
+    public function parse(): Parser
     {
         return chain(
-            optional((new VisibilityModifiersParser())->parse(named("classMethod", $prefix))),
+            optional(
+                (new VisibilityModifiersParser())->parse()
+            ),
             buffer("function"),
-            ns()->as(named("classMethodName", $prefix)),
+            ns()->as("classMethodName"),
             buffer("("),
-            optional((new ArgumentsParser())->parse(named("classMethod", $prefix))),
+            optional(
+                (new ArgumentsParser())->parse()
+            ),
             buffer(")"),
-            optional((new ReturnTypeParser())->parse(named("classMethod", $prefix))),
+            optional(
+                (new ReturnTypeParser())->parse()
+            ),
             buffer("{"),
-            layer()->as(named("classMethodBody", $prefix)),
+            layer()->as("classMethodBody"),
             buffer("}")
-        )
-            ->as(named("classMethod", $prefix));
+        )->as("classMethod");
     }
 }

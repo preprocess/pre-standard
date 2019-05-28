@@ -14,44 +14,44 @@ use function Pre\Standard\Internal\streamed;
 
 use Yay\Ast;
 use Yay\Engine;
-// use Yay\TokenStream;
+use Yay\TokenStream;
 
-function argument(Ast $ast, Engine $engine)
+function argument(Ast $ast, Engine $engine): TokenStream
 {
     return (new ArgumentExpander())->expand($ast, $engine);
 }
 
-function arguments(Ast $ast, Engine $engine)
+function arguments(Ast $ast, Engine $engine): TokenStream
 {
     return (new ArgumentsExpander())->expand($ast, $engine);
 }
 
-function classConstant(Ast $ast, Engine $engine)
+function classConstant(Ast $ast, Engine $engine): TokenStream
 {
     return (new ClassConstantExpander())->expand($ast, $engine);
 }
 
-function classMethod(Ast $ast, Engine $engine)
+function classMethod(Ast $ast, Engine $engine): TokenStream
 {
     return (new ClassMethodExpander())->expand($ast, $engine);
 }
 
-function classProperty(Ast $ast, Engine $engine)
+function classProperty(Ast $ast, Engine $engine): TokenStream
 {
     return (new ClassPropertyExpander())->expand($ast, $engine);
 }
 
-function classTrait(Ast $ast, Engine $engine)
+function classTrait(Ast $ast, Engine $engine): TokenStream
 {
     return (new ClassTraitExpander())->expand($ast, $engine);
 }
 
-function nullableType(Ast $ast, Engine $engine)
+function nullableType(Ast $ast, Engine $engine): TokenStream
 {
     return (new NullableTypeExpander())->expand($ast, $engine);
 }
 
-function studly(Ast $ast, Engine $engine)
+function studly(Ast $ast, Engine $engine): TokenStream
 {
     $stream = \str_replace(["-", "_"], " ", $stream);
     $stream = \str_replace(" ", "", \ucwords($stream));
@@ -59,12 +59,12 @@ function studly(Ast $ast, Engine $engine)
     return streamed($ast, $engine);
 }
 
-function type(Ast $ast, Engine $engine)
+function type(Ast $ast, Engine $engine): TokenStream
 {
     return (new TypeExpander())->expand($ast, $engine);
 }
 
-function visibilityModifiers(Ast $ast, Engine $engine)
+function visibilityModifiers(Ast $ast, Engine $engine): TokenStream
 {
     return (new VisibilityModifiersExpander())->expand($ast, $engine);
 }

@@ -31,10 +31,10 @@ class ClassTraitParserTest extends TestCase
                                     "as",
 
                                     $(classTraitAliasAs ... {
-                                        $(classTraitAliasVisibilityModifiers ? {
-                                            $(classTraitAliasVisibilityModifiers ...(,) {
-                                                $(classTraitAliasVisibilityModifier ... {
-                                                    $$(stringify($(classTraitAliasVisibilityModifier)))
+                                        $(visibilityModifiers ? {
+                                            $(visibilityModifiers ...(,) {
+                                                $(visibilityModifier ... {
+                                                    $$(stringify($(visibilityModifier)))
                                                 })
                                             }),
                                         })

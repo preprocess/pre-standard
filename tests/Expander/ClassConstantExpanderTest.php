@@ -10,7 +10,7 @@ class ClassConstantExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\classConstant())
+            $(\Pre\Standard\Parser\classConstant()) as classConstant
         } >> {
             $$(\Pre\Standard\Expander\classConstant($(classConstant)))
         }

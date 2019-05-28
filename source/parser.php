@@ -15,52 +15,52 @@ use Pre\Standard\Parser\VisibilityModifiersParser;
 
 use Yay\Parser;
 
-function argument(string $prefix = null): Parser
+function argument(): Parser
 {
-    return (new ArgumentParser())->parse($prefix);
+    return (new ArgumentParser())->parse();
 }
 
-function arguments(string $prefix = null): Parser
+function arguments(): Parser
 {
-    return (new ArgumentsParser())->parse($prefix);
+    return (new ArgumentsParser())->parse();
 }
 
-function cls(string $prefix = null): Parser
+function cls(): Parser
 {
-    return (new ClassParser())->parse($prefix);
+    return (new ClassParser())->parse();
 }
 
-function classConstant(string $prefix = null): Parser
+function classConstant(): Parser
 {
-    return (new ClassConstantParser())->parse($prefix);
+    return (new ClassConstantParser())->parse();
 }
 
-function classMethod(string $prefix = null): Parser
+function classMethod(): Parser
 {
-    return (new ClassMethodParser())->parse($prefix);
+    return (new ClassMethodParser())->parse();
 }
 
-function classProperty(string $prefix = null): Parser
+function classProperty(): Parser
 {
-    return (new ClassPropertyParser())->parse($prefix);
+    return (new ClassPropertyParser())->parse();
 }
 
-function classTrait(string $prefix = null): Parser
+function classTrait(): Parser
 {
-    return (new ClassTraitParser())->parse($prefix);
+    return (new ClassTraitParser())->parse();
 }
 
-function nullableType(string $prefix = null): Parser
+function nullableType(): Parser
 {
-    return (new NullableTypeParser())->parse($prefix);
+    return (new NullableTypeParser())->parse();
 }
 
-function type(string $prefix = null): Parser
+function type(): Parser
 {
-    return (new TypeParser())->parse($prefix);
+    return (new TypeParser())->parse();
 }
 
-function visibilityModifiers(string $prefix = null): Parser
+function visibilityModifiers(): Parser
 {
-    return (new VisibilityModifiersParser())->parse($prefix);
+    return (new VisibilityModifiersParser())->parse();
 }

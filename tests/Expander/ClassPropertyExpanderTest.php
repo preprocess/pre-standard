@@ -10,7 +10,7 @@ class ClassPropertyExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\classProperty())
+            $(\Pre\Standard\Parser\classProperty()) as classProperty
         } >> {
             $$(\Pre\Standard\Expander\classProperty($(classProperty)))
         }

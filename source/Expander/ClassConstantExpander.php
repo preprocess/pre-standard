@@ -5,35 +5,29 @@ namespace Pre\Standard\Expander;
 use Pre\Standard\AbstractExpander;
 use function Pre\Standard\Internal\aerated;
 use function Pre\Standard\Internal\flattened;
-use function Pre\Standard\Internal\named;
 use function Pre\Standard\Internal\streamed;
+
 use Yay\Ast;
 use Yay\Engine;
+use Yay\TokenStream;
 
 class ClassConstantExpander extends AbstractExpander
 {
-    public function expand(Ast $ast, Engine $engine, string $prefix = null)
+    public function expand(Ast $ast, Engine $engine): TokenStream
     {
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, named("classConstantVisibilityModifiers", $prefix)))) {
+        if (!empty($branch = $this->find($ast, "visibilityModifiers"))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                new Ast("", [named("classConstantVisibilityModifiers", $prefix) => $branch]),
-                $engine,
-                named("classConstant", $prefix)
+                new Ast("", ["visibilityModifiers" => $branch]),
+                $engine
             );
         }
 
-        // DEBUG -> this returns strange things in the class parser
-        if (empty($this->find($ast, named("classConstantValue", $prefix)))) {
-            print_r($ast);
-            exit;
-        }
-
         $tokens[] = "const";
-        $tokens[] = $this->find($ast, named("classConstantName", $prefix));
+        $tokens[] = $this->find($ast, "classConstantName");
         $tokens[] = "=";
-        $tokens[] = flattened($this->find($ast, named("classConstantValue", $prefix)));
+        $tokens[] = flattened($this->find($ast, "classConstantValue"));
         $tokens[] = ";";
 
         return streamed(aerated($tokens), $engine);
