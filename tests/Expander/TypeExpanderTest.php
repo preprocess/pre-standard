@@ -10,7 +10,7 @@ class TypeExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\type()) as type
+            $(\Pre\Standard\Parser\type())
         } >> {
             $$(\Pre\Standard\Expander\type($(type)))
         }

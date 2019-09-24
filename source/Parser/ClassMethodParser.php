@@ -18,22 +18,16 @@ class ClassMethodParser extends AbstractParser
     public function parse(): Parser
     {
         return chain(
-            optional(
-                (new VisibilityModifiersParser())->parse()
-            ),
+            optional((new VisibilityModifiersParser())->parse()),
             buffer("function"),
-            ns()->as("classMethodName"),
+            ns()->as("name"),
             buffer("("),
-            optional(
-                (new ArgumentsParser())->parse()
-            ),
+            optional((new ArgumentsParser())->parse()),
             buffer(")"),
-            optional(
-                (new ReturnTypeParser())->parse()
-            ),
+            optional((new ReturnTypeParser())->parse()),
             buffer("{"),
-            layer()->as("classMethodBody"),
+            layer()->as("body"),
             buffer("}")
-        )->as("classMethod");
+        )->as("method");
     }
 }

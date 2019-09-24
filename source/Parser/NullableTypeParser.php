@@ -13,9 +13,6 @@ class NullableTypeParser extends AbstractParser
 {
     public function parse(): Parser
     {
-        return chain(
-            optional(buffer("?"))->as("nullable"),
-            (new TypeParser())->parse()
-        )->as("nullableType");
+        return chain(optional(buffer("?"))->as("nullable"), (new TypeParser())->parse())->as("nullableType");
     }
 }

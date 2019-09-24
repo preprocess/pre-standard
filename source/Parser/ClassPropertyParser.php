@@ -17,13 +17,11 @@ class ClassPropertyParser extends AbstractParser
     {
         return chain(
             (new VisibilityModifiersParser())->parse(),
-            optional(
-                (new NullableTypeParser())->parse()
-            ),
-            token(T_VARIABLE)->as("classPropertyName"),
+            optional((new NullableTypeParser())->parse()),
+            token(T_VARIABLE)->as("name"),
             optional(buffer("=")),
-            optional(expression())->as("classPropertyValue"),
+            optional(expression())->as("value"),
             optional(buffer(";"))
-        )->as("classProperty");
+        )->as("property");
     }
 }

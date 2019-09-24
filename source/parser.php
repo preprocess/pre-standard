@@ -25,7 +25,7 @@ function arguments(): Parser
     return (new ArgumentsParser())->parse();
 }
 
-function cls(): Parser
+function clas(): Parser
 {
     return (new ClassParser())->parse();
 }

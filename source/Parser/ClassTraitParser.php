@@ -22,40 +22,33 @@ class ClassTraitParser extends AbstractParser
     {
         return chain(
             buffer("use"),
-            ls(
-                ns()->as("classTraitName"), buffer(",")
-            )->as("classTraitNames"),
+            ls(ns()->as("name"), buffer(","))->as("names"),
             either(
                 chain(
                     buffer("{"),
                     repeat(
                         chain(
                             chain(
-                                optional(token(T_STRING)->as("classTraitAliasLeftClass")),
+                                optional(token(T_STRING)->as("aliasLeftClass")),
                                 optional(buffer("::")),
-                                optional(token(T_STRING)->as("classTraitAliasLeftMethod"))
-                            )->as("classTraitAliasLeft"),
+                                optional(token(T_STRING)->as("aliasLeftMethod"))
+                            )->as("aliasLeft"),
                             either(
-                                buffer("insteadof")->as("classTraitAliasInsteadOf"),
-                                chain(
-                                    buffer("as"),
-                                    optional(
-                                        (new VisibilityModifiersParser())->parse()
-                                    )
-                                )->as("classTraitAliasAs")
+                                buffer("insteadof")->as("aliasInsteadOf"),
+                                chain(buffer("as"), optional((new VisibilityModifiersParser())->parse()))->as("aliasAs")
                             ),
                             chain(
-                                optional(token(T_STRING)->as("classTraitAliasRightClass")),
+                                optional(token(T_STRING)->as("aliasRightClass")),
                                 optional(buffer("::")),
-                                optional(token(T_STRING)->as("classTraitAliasRightMethod"))
-                            )->as("classTraitAliasRight"),
+                                optional(token(T_STRING)->as("aliasRightMethod"))
+                            )->as("aliasRight"),
                             optional(buffer(";"))
-                        )->as("classTraitAlias")
-                    )->as("classTraitAliases"),
+                        )->as("alias")
+                    )->as("aliases"),
                     buffer("}")
-                )->as("classTraitBody"),
+                )->as("body"),
                 optional(buffer(";"))
             )
-        )->as("classTrait");
+        )->as("trait");
     }
 }

@@ -17,7 +17,7 @@ class ClassConstantExpander extends AbstractExpander
     {
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, "visibilityModifiers"))) {
+        if (!empty(($branch = $this->find($ast, "visibilityModifiers")))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
                 new Ast("", ["visibilityModifiers" => $branch]),
                 $engine
@@ -25,9 +25,9 @@ class ClassConstantExpander extends AbstractExpander
         }
 
         $tokens[] = "const";
-        $tokens[] = $this->find($ast, "classConstantName");
+        $tokens[] = $this->find($ast, "name");
         $tokens[] = "=";
-        $tokens[] = flattened($this->find($ast, "classConstantValue"));
+        $tokens[] = flattened($this->find($ast, "value"));
         $tokens[] = ";";
 
         return streamed(aerated($tokens), $engine);

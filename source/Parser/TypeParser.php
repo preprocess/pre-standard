@@ -14,11 +14,6 @@ class TypeParser extends AbstractParser
 {
     public function parse(): Parser
     {
-        return either(
-            ns(),
-            buffer("array"),
-            buffer("callable"),
-            buffer("self")
-        )->as("type");
+        return either(ns(), buffer("array"), buffer("callable"), buffer("self"))->as("type");
     }
 }

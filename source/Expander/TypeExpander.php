@@ -14,10 +14,9 @@ class TypeExpander extends AbstractExpander
 {
     public function expand(Ast $ast, Engine $engine): TokenStream
     {
-        die("here");
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, "type"))) {
+        if (!empty(($branch = $this->find($ast, "type")))) {
             $tokens[] = flattened($branch);
         }
 

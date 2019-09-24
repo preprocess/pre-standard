@@ -25,17 +25,17 @@ class ArgumentParserTest extends TestCase
                     })
                 })
 
-                $$(stringify($(argumentName))),
+                $$(stringify($(name))),
 
-                $(argumentAssignment ? {
-                    $(argumentAssignment ... {
+                $(assignment ? {
+                    $(assignment ... {
                         "equals",
     
-                        $(argumentNew ? {
+                        $(new ? {
                             "new",
                         })
     
-                        $$(stringify($(argumentValue)))
+                        $$(stringify($(value)))
                     })
                 })
             })

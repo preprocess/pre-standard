@@ -5,6 +5,7 @@ namespace Pre\Standard\Expander;
 use Pre\Standard\Expander\ArgumentExpander;
 use Pre\Standard\Expander\ArgumentsExpander;
 use Pre\Standard\Expander\ClassConstantExpander;
+use Pre\Standard\Expander\ClassExpander;
 use Pre\Standard\Expander\ClassMethodExpander;
 use Pre\Standard\Expander\ClassPropertyExpander;
 use Pre\Standard\Expander\ClassTraitExpander;
@@ -24,6 +25,11 @@ function argument(Ast $ast, Engine $engine): TokenStream
 function arguments(Ast $ast, Engine $engine): TokenStream
 {
     return (new ArgumentsExpander())->expand($ast, $engine);
+}
+
+function clas(Ast $ast, Engine $engine): TokenStream
+{
+    return (new ClassExpander())->expand($ast, $engine);
 }
 
 function classConstant(Ast $ast, Engine $engine): TokenStream

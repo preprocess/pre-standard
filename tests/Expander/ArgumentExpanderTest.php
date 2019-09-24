@@ -10,7 +10,7 @@ class ArgumentExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\argument()) as argument
+            $(\Pre\Standard\Parser\argument())
         } >> {
             $$(\Pre\Standard\Expander\argument($(argument)))
         }

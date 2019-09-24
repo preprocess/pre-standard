@@ -16,17 +16,11 @@ class ArgumentParser extends AbstractParser
     public function parse(): Parser
     {
         return chain(
-            optional(
-                (new NullableTypeParser())->parse()
-            ),
-            token(T_VARIABLE)->as("argumentName"),
-            optional(
-                chain(
-                    buffer("="),
-                    optional(buffer("new"))->as("argumentNew"),
-                    expression()->as("argumentValue")
-                )
-            )->as("argumentAssignment")
+            optional((new NullableTypeParser())->parse()),
+            token(T_VARIABLE)->as("name"),
+            optional(chain(buffer("="), optional(buffer("new"))->as("new"), expression()->as("value")))->as(
+                "assignment"
+            )
         )->as("argument");
     }
 }

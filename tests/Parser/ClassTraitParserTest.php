@@ -12,25 +12,25 @@ class ClassTraitParserTest extends TestCase
         $(macro) {
             $(\Pre\Standard\Parser\classTrait())
         } >> {
-            $(classTrait ... {
-                $(classTraitNames ... {
-                    $$(stringify($(classTraitName))),
+            $(trait ... {
+                $(names ... {
+                    $$(stringify($(name))),
                 })
 
-                $(classTraitBody ? {
-                    $(classTraitBody ... {
-                        $(classTraitAliases ... {
-                            $(classTraitAlias ... {
-                                $$(stringify($(classTraitAliasLeft))),
+                $(body ? {
+                    $(body ... {
+                        $(aliases ... {
+                            $(alias ... {
+                                $$(stringify($(aliasLeft))),
 
-                                $(classTraitAliasInsteadOf ? {
+                                $(aliasInsteadOf ? {
                                     "insteadof",
                                 })
 
-                                $(classTraitAliasAs ? {
+                                $(aliasAs ? {
                                     "as",
 
-                                    $(classTraitAliasAs ... {
+                                    $(aliasAs ... {
                                         $(visibilityModifiers ? {
                                             $(visibilityModifiers ...(,) {
                                                 $(visibilityModifier ... {
@@ -41,13 +41,13 @@ class ClassTraitParserTest extends TestCase
                                     })
                                 })
 
-                                $$(stringify($(classTraitAliasRight))),
+                                $$(stringify($(aliasRight))),
                             })
                         })
                     })
                 })
 
-                $(classTraitBody ! {
+                $(body ! {
                     "no body",
                 })
             })

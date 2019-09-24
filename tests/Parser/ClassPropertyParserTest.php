@@ -12,7 +12,7 @@ class ClassPropertyParserTest extends TestCase
         $(macro) {
             $(\Pre\Standard\Parser\classProperty())
         } >> {
-            $(classProperty ... {
+            $(property ... {
                 $(visibilityModifiers ? {
                     $(visibilityModifiers ...(,) {
                         $(visibilityModifier ... {
@@ -31,10 +31,10 @@ class ClassPropertyParserTest extends TestCase
                     })
                 })
     
-                $$(stringify($(classPropertyName))),
+                $$(stringify($(name))),
     
-                $(classPropertyValue ? {
-                    $$(stringify($(classPropertyValue))),
+                $(value ? {
+                    $$(stringify($(value))),
                 })
             })
         }

@@ -16,15 +16,12 @@ class ClassConstantParser extends AbstractParser
     public function parse(): Parser
     {
         return chain(
-            optional(
-                (new VisibilityModifiersParser())->parse()
-            ),
+            optional((new VisibilityModifiersParser())->parse()),
             buffer("const"),
-            token(T_STRING)->as("classConstantName"),
+            token(T_STRING)->as("name"),
             buffer("="),
-            expression()->as("classConstantValue"),
+            expression()->as("value"),
             optional(buffer(";"))
-        )
-            ->as("classConstant");
+        )->as("constant");
     }
 }

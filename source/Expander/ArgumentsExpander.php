@@ -17,10 +17,7 @@ class ArgumentsExpander extends AbstractExpander
         $arguments = $this->find($ast, "arguments");
 
         foreach ($arguments as $argument) {
-            $tokens[] = (string) (new ArgumentExpander())->expand(
-                new Ast("", ["argument" => $argument]),
-                $engine
-            );
+            $tokens[] = (string) (new ArgumentExpander())->expand(new Ast("", ["argument" => $argument]), $engine);
 
             $tokens[] = ", ";
         }

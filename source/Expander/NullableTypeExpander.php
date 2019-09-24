@@ -20,11 +20,8 @@ class NullableTypeExpander extends AbstractExpander
             $tokens[] = "?";
         }
 
-        if (!empty($branch = $this->find($ast, "type"))) {
-            $tokens[] = (string) (new TypeExpander())->expand(
-                new Ast("", ["type" => $branch]),
-                $engine
-            );
+        if (!empty(($branch = $this->find($ast, "type")))) {
+            $tokens[] = (string) (new TypeExpander())->expand(new Ast("", ["type" => $branch]), $engine);
         }
 
         return streamed(aerated($tokens), $engine);

@@ -10,7 +10,7 @@ class NullableTypeExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\nullableType()) as nullableType
+            $(\Pre\Standard\Parser\nullableType())
         } >> {
             $$(\Pre\Standard\Expander\nullableType($(nullableType)))
         }

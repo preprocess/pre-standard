@@ -14,13 +14,9 @@ class VisibilityModifiersParser extends AbstractParser
     public function parse(): Parser
     {
         return repeat(
-            either(
-                buffer("abstract"),
-                buffer("public"),
-                buffer("protected"),
-                buffer("private"),
-                buffer("static")
-            )->as("visibilityModifier")
+            either(buffer("abstract"), buffer("public"), buffer("protected"), buffer("private"), buffer("static"))->as(
+                "visibilityModifier"
+            )
         )->as("visibilityModifiers");
     }
 }

@@ -16,7 +16,7 @@ class ReturnTypeExpander extends AbstractExpander
     {
         $tokens = [":"];
 
-        if (!empty($branch = $this->find($ast, "nullableType"))) {
+        if (!empty(($branch = $this->find($ast, "nullableType")))) {
             $tokens[] = (string) (new NullableTypeExpander())->expand(
                 new Ast("", ["nullableType" => $branch]),
                 $engine

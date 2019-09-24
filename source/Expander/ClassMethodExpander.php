@@ -17,7 +17,7 @@ class ClassMethodExpander extends AbstractExpander
     {
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, "visibilityModifiers"))) {
+        if (!empty(($branch = $this->find($ast, "visibilityModifiers")))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
                 new Ast("", ["visibilityModifiers" => $branch]),
                 $engine
@@ -25,28 +25,22 @@ class ClassMethodExpander extends AbstractExpander
         }
 
         $tokens[] = "function";
-        $tokens[] = flattened($this->find($ast, "classMethodName"));
+        $tokens[] = flattened($this->find($ast, "name"));
         $tokens[] = "(";
 
-        if (!empty($branch = $this->find($ast, "arguments"))) {
-            $tokens[] = (string) (new ArgumentsExpander())->expand(
-                new Ast("", ["arguments" => $branch]),
-                $engine
-            );
+        if (!empty(($branch = $this->find($ast, "arguments")))) {
+            $tokens[] = (string) (new ArgumentsExpander())->expand(new Ast("", ["arguments" => $branch]), $engine);
         }
 
         $tokens[] = ")";
 
-        if (!empty($branch = $this->find($ast, "nullableReturnType"))) {
-            $tokens[] = (string) (new NullableReturnTypeExpander())->expand(
-                new Ast("", ["nullableReturnType" => $branch]),
-                $engine
-            );
+        if (!empty(($branch = $this->find($ast, "returnType")))) {
+            $tokens[] = (string) (new ReturnTypeExpander())->expand(new Ast("", ["returnType" => $branch]), $engine);
         }
 
         $tokens[] = "{";
 
-        if (!empty($branch = $this->find($ast, "classMethodBody"))) {
+        if (!empty(($branch = $this->find($ast, "body")))) {
             $tokens[] = flattened($branch);
         }
 

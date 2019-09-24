@@ -17,23 +17,23 @@ class ClassPropertyExpander extends AbstractExpander
     {
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, "visibilityModifiers"))) {
+        if (!empty(($branch = $this->find($ast, "visibilityModifiers")))) {
             $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
                 new Ast("", ["visibilityModifiers" => $branch]),
                 $engine
             );
         }
 
-        if (!empty($branch = $this->find($ast, "nullableType"))) {
+        if (!empty(($branch = $this->find($ast, "nullableType")))) {
             $tokens[] = (string) (new NullableTypeExpander())->expand(
                 new Ast("", ["nullableType" => $branch]),
                 $engine
             );
         }
 
-        $tokens[] = $this->find($ast, "classPropertyName");
+        $tokens[] = $this->find($ast, "name");
         $tokens[] = "=";
-        $tokens[] = flattened($this->find($ast, "classPropertyValue"));
+        $tokens[] = flattened($this->find($ast, "value"));
         $tokens[] = ";";
 
         return streamed(aerated($tokens), $engine);

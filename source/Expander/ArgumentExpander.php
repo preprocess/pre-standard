@@ -18,23 +18,23 @@ class ArgumentExpander extends AbstractExpander
     {
         $tokens = [];
 
-        if (!empty($branch = $this->find($ast, "nullableType"))) {
+        if (!empty(($branch = $this->find($ast, "nullableType")))) {
             $tokens[] = (string) (new NullableTypeExpander())->expand(
                 new Ast("", ["nullableType" => $branch]),
                 $engine
             );
         }
 
-        $tokens[] = $this->find($ast, "argumentName");
+        $tokens[] = $this->find($ast, "name");
 
-        if (!empty($branch = $this->find($ast, "argumentAssignment"))) {
+        if (!empty(($branch = $this->find($ast, "assignment")))) {
             $tokens[] = "=";
 
-            if (!empty($this->find($branch, "argumentNew"))) {
+            if (!empty($this->find($branch, "new"))) {
                 $tokens[] = "new";
             }
 
-            $tokens[] = flattened($this->find($branch, "argumentValue"));
+            $tokens[] = flattened($this->find($branch, "value"));
         }
 
         return streamed(aerated($tokens), $engine);

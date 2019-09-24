@@ -12,7 +12,7 @@ class ClassConstantParserTest extends TestCase
         $(macro) {
             $(\Pre\Standard\Parser\classConstant())
         } >> {
-            $(classConstant ... {
+            $(constant ... {
                 $(visibilityModifiers ? {
                     $(visibilityModifiers ...(,) {
                         $(visibilityModifier ... {
@@ -20,8 +20,8 @@ class ClassConstantParserTest extends TestCase
                         })
                     }),
                 })
-                $$(stringify($(classConstantName))),
-                $$(stringify($(classConstantValue))),
+                $$(stringify($(name))),
+                $$(stringify($(value))),
             })
         }
     ';

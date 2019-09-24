@@ -10,78 +10,78 @@ class ClassParserTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\cls())
+            $(\Pre\Standard\Parser\clas())
         } >> {
-            $(cls ... {
+            $(clas ... {
                 [
 
-                    $(classNamed ? {
+                    $(named ? {
                         "named class",
 
-                        $(classNamed ... {
-                            $$(stringify($(className))),
+                        $(named ... {
+                            $$(stringify($(name))),
                         })
                     })
 
-                    $(classAnonymous ? {
+                    $(anonymous ? {
                         "anonymous class",
 
-                        $(classAnonymous ... {
-                            $(classArguments ? {
+                        $(anonymous ... {
+                            $(arguments ? {
                                 "arguments",
-                                $$(stringify($(classArguments))),
+                                $$(stringify($(arguments))),
                             })
 
-                            $(classArguments ! {
+                            $(arguments ! {
                                 "no arguments",
                             })
                         })
                     })
 
-                    $(classModifiers ? {
+                    $(modifiers ? {
                         "modifiers",
-                        $(classModifiers ... {        
-                            $(classExtendsType ? {
+                        $(modifiers ... {        
+                            $(extendsType ? {
                                 "extends",
-                                $$(stringify($(classExtendsType))),
+                                $$(stringify($(extendsType))),
                             })
 
-                            $(classImplementsTypes ? {
+                            $(implementsTypes ? {
                                 "implements",
-                                $(classImplementsTypes ... {
-                                    $$(stringify($(classImplementsType))),
+                                $(implementsTypes ... {
+                                    $$(stringify($(implementsType))),
                                 })
                             })
                         })
                     })
 
-                    $(classModifiers ! {
+                    $(modifiers ! {
                         "no modifiers",
                     })
 
-                    $(classMembers ? {
-                        "members"
+                    $(members ? {
+                        "members",
 
-                        $(classMembers ... {
-                            // $(classTrait ? {
-                            //     $$(\Pre\Standard\Expander\classTrait($(classTrait)))
-                            // })
+                        $(members ... {
+                            $(trait ? {
+                                $$(stringify($$(\Pre\Standard\Expander\classTrait($(trait))))),
+                            })
 
-                            // $(classConstant ? {
-                            //     $$(\Pre\Standard\Expander\classConstant($(classConstant)))
-                            // })
+                            $(constant ? {
+                                $$(stringify($$(\Pre\Standard\Expander\classConstant($(constant))))),
+                            })
 
-                            // $(classProperty ? {
-                            //     $$(\Pre\Standard\Expander\classProperty($(classProperty)))
-                            // })
+                            $(property ? {
+                                $$(stringify($$(\Pre\Standard\Expander\classProperty($(property))))),
+                            })
 
-                            // $(classMethod ? {
-                            //     $$(\Pre\Standard\Expander\classMethod($(classMethod)))
-                            // })
+                            $(method ? {
+                                $$(stringify($$(\Pre\Standard\Expander\classMethod($(method))))),
+                            })
                         })
                     })
 
-                    $(classMembers ! {
+                    $(members ! {
                         "no members"
                     })
 
@@ -114,27 +114,31 @@ class ClassParserTest extends TestCase
                 }
 
                 class ExampleHasMethod {
-                    public function works($value): bool {
-                        return $value;
-                    }
+                    public function works($value): bool { return $value; }
                 }
             ]
         ');
 
-        // print_r($code);
-        // exit;
-
-        $this->assertEquals([
-            ["anonymous class", "no arguments", "no modifiers", "no members"],
-            ["anonymous class", "arguments", "1, 2, 3", "no modifiers", "no members"],
-            ["named class", "Example", "no modifiers", "no members"],
-            ["named class", "Example", "modifiers", "extends", "Base", "no members"],
-            ["named class", "Example", "modifiers", "implements", "One", "Two", "no members"],
-            ["named class", "Example", "modifiers", "extends", "Base", "implements", "One", "Two", "no members"],
-            ["named class", "ExampleHasTrait", "no modifiers", "members"],
-            ["named class", "ExampleHasConstant", "no modifiers", "members"],
-            ["named class", "ExampleHasProperty", "no modifiers", "members"],
-            ["named class", "ExampleHasMethod", "no modifiers", "members"],
-        ], eval($code));
+        $this->assertEquals(
+            [
+                ["anonymous class", "no arguments", "no modifiers", "no members"],
+                ["anonymous class", "arguments", "123", "no modifiers", "no members"],
+                ["named class", "Example", "no modifiers", "no members"],
+                ["named class", "Example", "modifiers", "extends", "Base", "no members"],
+                ["named class", "Example", "modifiers", "implements", "One", "Two", "no members"],
+                ["named class", "Example", "modifiers", "extends", "Base", "implements", "One", "Two", "no members"],
+                ["named class", "ExampleHasTrait", "no modifiers", "members", "use TestTrait ;"],
+                ["named class", "ExampleHasConstant", "no modifiers", "members", 'const FOO = "bar" ;'],
+                ["named class", "ExampleHasProperty", "no modifiers", "members", 'private $property = "value" ;'],
+                [
+                    "named class",
+                    "ExampleHasMethod",
+                    "no modifiers",
+                    "members",
+                    'public function works ( $value ) : bool { return $value;  }',
+                ],
+            ],
+            eval($code)
+        );
     }
 }

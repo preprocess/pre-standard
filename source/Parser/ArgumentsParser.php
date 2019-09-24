@@ -13,9 +13,6 @@ class ArgumentsParser extends AbstractParser
 {
     public function parse(): Parser
     {
-        return ls(
-            (new ArgumentParser())->parse(),
-            buffer(",")
-        )->as("arguments");
+        return ls((new ArgumentParser())->parse(), buffer(","))->as("arguments");
     }
 }

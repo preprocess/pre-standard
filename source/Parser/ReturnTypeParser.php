@@ -12,9 +12,6 @@ class ReturnTypeParser extends AbstractParser
 {
     public function parse(): Parser
     {
-        return chain(
-            buffer(":"),
-            (new NullableTypeParser())->parse()
-        )->as("returnType");
+        return chain(buffer(":"), (new NullableTypeParser())->parse())->as("returnType");
     }
 }

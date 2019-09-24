@@ -12,7 +12,7 @@ class ClassMethodParserTest extends TestCase
         $(macro) {
             $(\Pre\Standard\Parser\classMethod())
         } >> {
-            $(classMethod ... {
+            $(method ... {
                 $(visibilityModifiers ? {
                     $(visibilityModifiers ...(,) {
                         $(visibilityModifier ... {
@@ -23,7 +23,7 @@ class ClassMethodParserTest extends TestCase
                 $(visibilityModifiers ! {
                     "no modifiers",
                 })
-                $$(stringify($(classMethodName))),
+                $$(stringify($(name))),
                 $(arguments ? {
                     $$(stringify($(arguments))),
                 })
@@ -36,10 +36,10 @@ class ClassMethodParserTest extends TestCase
                 $(returnType ! {
                     "no return type",
                 })
-                $(classMethodBody ? {
-                    $$(stringify($(classMethodBody))),
+                $(body ? {
+                    $$(stringify($(body))),
                 })
-                $(classMethodBody ! {
+                $(body ! {
                     "no body",
                 })
             })

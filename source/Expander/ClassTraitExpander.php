@@ -17,56 +17,59 @@ class ClassTraitExpander extends AbstractExpander
     {
         $tokens = ["use"];
 
-        foreach ($this->find($ast, "classTraitNames") as $classTraitName) {
+        foreach ($this->find($ast, "names") as $classTraitName) {
             $tokens[] = flattened($classTraitName);
             $tokens[] = ",";
         }
 
         array_pop($tokens);
 
-        if (!empty($branch = $this->find($ast, "classTraitBody"))) {
+        if (!empty(($branch = $this->find($ast, "body")))) {
             $tokens[] = "{";
 
-            foreach ($leaf = $this->find($branch, "classTraitAliases") as $classTraitAlias) {
-                $alias = $classTraitAlias["classTraitAlias"];
+            foreach (($leaf = $this->find($branch, "aliases")) as $classTraitAlias) {
+                $alias = $classTraitAlias["alias"];
 
-                if (!empty($alias["classTraitAliasLeft"]["classTraitAliasLeftClass"])) {
-                    $tokens[] = $alias["classTraitAliasLeft"]["classTraitAliasLeftClass"];
+                if (!empty($alias["aliasLeft"]["aliasLeftClass"])) {
+                    $tokens[] = $alias["aliasLeft"]["aliasLeftClass"];
                 }
 
-                if (!empty($alias["classTraitAliasLeft"]["classTraitAliasLeftClass"]) && !empty($alias["classTraitAliasLeft"]["classTraitAliasLeftMethod"])) {
+                if (!empty($alias["aliasLeft"]["aliasLeftClass"]) && !empty($alias["aliasLeft"]["aliasLeftMethod"])) {
                     $tokens[] = "::";
                 }
 
-                if (!empty($alias["classTraitAliasLeft"]["classTraitAliasLeftMethod"])) {
-                    $tokens[] = $alias["classTraitAliasLeft"]["classTraitAliasLeftMethod"];
+                if (!empty($alias["aliasLeft"]["aliasLeftMethod"])) {
+                    $tokens[] = $alias["aliasLeft"]["aliasLeftMethod"];
                 }
 
-                if (!empty($alias["classTraitAliasInsteadOf"])) {
+                if (!empty($alias["aliasInsteadOf"])) {
                     $tokens[] = "insteadof";
                 }
 
-                if (!empty($alias["classTraitAliasAs"])) {
+                if (!empty($alias["aliasAs"])) {
                     $tokens[] = "as";
 
-                    if (!empty($alias["classTraitAliasAs"]["visibilityModifiers"])) {
+                    if (!empty($alias["aliasAs"]["visibilityModifiers"])) {
                         $tokens[] = (string) (new VisibilityModifiersExpander())->expand(
-                            new Ast("", ["visibilityModifiers" => $alias["classTraitAliasAs"]["visibilityModifiers"]]),
+                            new Ast("", ["visibilityModifiers" => $alias["aliasAs"]["visibilityModifiers"]]),
                             $engine
                         );
                     }
                 }
-                
-                if (!empty($alias["classTraitAliasRight"]["classTraitAliasRightClass"])) {
-                    $tokens[] = $alias["classTraitAliasRight"]["classTraitAliasRightClass"];
+
+                if (!empty($alias["aliasRight"]["aliasRightClass"])) {
+                    $tokens[] = $alias["aliasRight"]["aliasRightClass"];
                 }
 
-                if (!empty($alias["classTraitAliasRight"]["classTraitAliasRightClass"]) && !empty($alias["classTraitAliasRight"]["classTraitAliasRightMethod"])) {
+                if (
+                    !empty($alias["aliasRight"]["aliasRightClass"]) &&
+                    !empty($alias["aliasRight"]["aliasRightMethod"])
+                ) {
                     $tokens[] = "::";
                 }
 
-                if (!empty($alias["classTraitAliasRight"]["classTraitAliasRightMethod"])) {
-                    $tokens[] = $alias["classTraitAliasRight"]["classTraitAliasRightMethod"];
+                if (!empty($alias["aliasRight"]["aliasRightMethod"])) {
+                    $tokens[] = $alias["aliasRight"]["aliasRightMethod"];
                 }
 
                 $tokens[] = ";";

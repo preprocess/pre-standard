@@ -10,9 +10,9 @@ class ClassTraitExpanderTest extends TestCase
 
     protected $macro = '
         $(macro) {
-            $(\Pre\Standard\Parser\classTrait()) as classTrait
+            $(\Pre\Standard\Parser\classTrait())
         } >> {
-            $$(\Pre\Standard\Expander\classTrait($(classTrait)))
+            $$(\Pre\Standard\Expander\classTrait($(trait)))
         }
     ';
 
