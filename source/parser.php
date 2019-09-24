@@ -55,6 +55,11 @@ function nullableType(): Parser
     return (new NullableTypeParser())->parse();
 }
 
+function returnType(): Parser
+{
+    return (new ReturnTypeParser())->parse();
+}
+
 function type(): Parser
 {
     return (new TypeParser())->parse();

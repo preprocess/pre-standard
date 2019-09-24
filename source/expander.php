@@ -57,6 +57,11 @@ function nullableType(Ast $ast, Engine $engine): TokenStream
     return (new NullableTypeExpander())->expand($ast, $engine);
 }
 
+function returnType(Ast $ast, Engine $engine): TokenStream
+{
+    return (new ReturnTypeExpander())->expand($ast, $engine);
+}
+
 function studly(TokenStream $stream, Engine $engine): TokenStream
 {
     $stream = \str_replace(["-", "_"], " ", (string) $stream);
