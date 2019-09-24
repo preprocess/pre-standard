@@ -1,5 +1,7 @@
 <?php
 
+namespace Pre\Standard\Tests\Expander;
+
 use PHPUnit\Framework\TestCase;
 use Pre\Standard\Tests\HasExpand;
 use Yay\Engine;

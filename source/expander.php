@@ -57,12 +57,12 @@ function nullableType(Ast $ast, Engine $engine): TokenStream
     return (new NullableTypeExpander())->expand($ast, $engine);
 }
 
-function studly(Ast $ast, Engine $engine): TokenStream
+function studly(TokenStream $stream, Engine $engine): TokenStream
 {
-    $stream = \str_replace(["-", "_"], " ", $stream);
+    $stream = \str_replace(["-", "_"], " ", (string) $stream);
     $stream = \str_replace(" ", "", \ucwords($stream));
 
-    return streamed($ast, $engine);
+    return TokenStream::fromSource($stream);
 }
 
 function type(Ast $ast, Engine $engine): TokenStream
