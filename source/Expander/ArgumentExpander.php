@@ -34,7 +34,7 @@ class ArgumentExpander extends AbstractExpander
                 $tokens[] = "new";
             }
 
-            $tokens[] = flattened($this->find($branch, "value"));
+            $tokens[] = flattened($this->find($branch, "body"));
         }
 
         return streamed(aerated($tokens), $engine);
