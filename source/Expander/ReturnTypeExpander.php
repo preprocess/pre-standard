@@ -14,9 +14,10 @@ class ReturnTypeExpander extends AbstractExpander
 {
     public function expand(Ast $ast, Engine $engine): TokenStream
     {
-        $tokens = [":"];
+        $tokens = [];
 
         if (!empty(($branch = $this->find($ast, "nullableType")))) {
+            $tokens[] = [":"];
             $tokens[] = (string) (new NullableTypeExpander())->expand(
                 new Ast("", ["nullableType" => $branch]),
                 $engine
